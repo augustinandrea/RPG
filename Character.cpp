@@ -25,7 +25,8 @@ string Character::getClass()
 bool Character::isDead()
 {return dead;}
 
-//UPGRADE CLASS FUNCTION? Cases for differect classes
+virtual void Character::upgradeClass()
+{Class = "Upgraded Class";}
 
 void Character::fight(Character enemy)
 {
