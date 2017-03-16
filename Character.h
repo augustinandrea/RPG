@@ -6,6 +6,7 @@
 #define CHARACTER_H
 
 #include <string>
+#include <iostream>
 using namespace std;
 
 class Character
@@ -16,11 +17,11 @@ class Character
 		string getName();
 		string getClass();
 		bool isDead();
-		//UPGRADE CLASS FUNCTION?
+		virtual void upgradeClass() = 0;
 		void fight(Character);
 		void takeDamage(int);
 		void dies();
-		virtual void displayInfo();
+		virtual void displayInfo() = 0;
 	private:
 		string Name;
 		string Class;
