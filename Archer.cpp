@@ -11,8 +11,12 @@ using namespace std;
 Archer::Archer (string Name, string Class, bool dead) : Character (Name, Class, dead)
 {}
 
-void Archer::upgradeClass()
-{Class = "Sniper";}
+void Archer::upgradeClass() {
+	Class = "Sniper";
+	stats["Max HP"] = stats["Max HP"] + 5; 
+	stats["HP"]= stats["Max HP"];
+	stats["Attack"]= stats[
+}	
 
 void Archer::print()
 {
