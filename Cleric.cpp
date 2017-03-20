@@ -19,5 +19,9 @@ void Cleric::print()
 	cout << Name << endl;
 	cout << ========================================= << endl;
 	cout << "Class: " << Class << endl;
-	//DISPLAY STATS FROM MAP
+	stats["HP"]= stats["Max HP'];                  // The amount of hp a character currently has
+	stats["Max HP"]= 17;		 // The total amount of hp a character has in total
+	stats["Avoid"]=avoid;		 // The percentage chance that an unit has in dodging a character's attack
+	stats["Accuracy"]=accuracy;      // The percentage chance that an unit's attacks hits
+	stats["Heal"] = 
 }
