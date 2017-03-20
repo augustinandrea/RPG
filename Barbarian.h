@@ -16,8 +16,8 @@ class Barbarian : public Character
 		Barbarian(string="Name", string="Barbarian", bool=false );
 		virtual void upgrade Class();
 		virtual void displayInfo();
-		//Any methods a Lord may have that other classes won't
+		//Any methods a Barbarian may have that other classes won't
 	private:
-		//Anything a Lord may have that other classes won't
+		//Anything a Barbarian may have that other classes won't
 };
 #endif

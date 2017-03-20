@@ -38,6 +38,14 @@ string Character::getClass()
 bool Character::isDead()
 {return dead;}
 
+//Getter for HP
+int Character::getHP()
+{return stats["HP"]}
+
+//Getter for Max HP
+int Character::getMaxHP()
+{return stats["Max HP"]}
+
 //Virtual function for upgrading character class
 virtual void Character::upgradeClass()
 {Class = "Upgraded Class";}
@@ -95,7 +103,8 @@ void Character::displayInfo()
 	cout << Name << endl;
 	cout << "=========================================" << endl;
 	cout << "Class:          " << Class << endl;
-	cout << "Max HP:         " << stats["HP"] << endl;
+	cout << "Current HP:     " << stats["HP"] << endl;
+	cout << "Max HP:         " << stats["Max HP"] << endl;
 	cout << "Avoid:          " << stats["Avoid"] << "%" << endl;
 	cout << "Accuracy:       " << stats["Accuracy"] << "%" << endl;
 	cout << "Crit Rate:      " << stats["Crit"] << "%" << endl;
