@@ -8,7 +8,7 @@
 using namespace std;
 
 //Constructor, gives a character a name, a class, a death status, and a map of statistics
-Character::Character(string n, string c, bool d, int hp, int maxHP, int avoid, int attack, int crit, int damage, int critDamage, int heal)
+Character::Character(string n, string c, bool d, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal)
 {
 	Name = n;
 	Class = c;
@@ -16,7 +16,7 @@ Character::Character(string n, string c, bool d, int hp, int maxHP, int avoid, i
 	stats["HP"]=hp;
 	stats["Max HP"]=maxHP;
 	stats["Avoid"]=avoid;
-	stats["Attack"]=attack;
+	stats["Accuracy"]=accuracy;
 	stats["Crit"]=crit;
 	stats["Damage"]=damage;
 	stats["Crit Damage"]=critDamage;
@@ -54,7 +54,7 @@ void Character::fight(Character enemy)
 	else
 	{
 		int attackRoll = rand();
-		if(roll <= stats["Attack"])
+		if(roll <= stats["Accuracy"])
 		{
 			enemy.takeDamage(stats["Damage"]);
 			cout << Name << " hits " << enemy.getName() << " and deals " << stats["Damage"] << " damage!" << endl;
@@ -93,8 +93,15 @@ void Character::dies()
 void Character::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
-	cout << "Class: " << Class << endl;
+	cout << "=========================================" << endl;
+	cout << "Class:          " << Class << endl;
+	cout << "Max HP:         " << stats["HP"] << endl;
+	cout << "Avoid:          " << stats["Avoid"] << "%" << endl;
+	cout << "Accuracy:       " << stats["Accuracy"] << "%" << endl;
+	cout << "Crit Rate:      " << stats["Crit"] << "%" << endl;
+	cout << "Damage:         " << stats["Damage"] << endl;
+	cout << "Crit Damage:    " << stats["Crit Damage"] << endl;
+	cout << "Recorvery Rate: " << stats["Heal"] << endl;
 }
 
 
