@@ -13,13 +13,13 @@ Character::Character(string n, string c, bool d, int hp, int maxHP, int avoid, i
 	Name = n;
 	Class = c;
 	dead = d;
-	stats["HP"]=hp;
-	stats["Max HP"]=maxHP;
-	stats["Avoid"]=avoid;
-	stats["Accuracy"]=accuracy;
-	stats["Crit"]=crit;
-	stats["Damage"]=damage;
-	stats["Crit Damage"]=critDamage;
+	stats["HP"]=hp;                  // The amount of hp a character currently has
+	stats["Max HP"]=maxHP;		 // The total amount of hp a character has in total
+	stats["Avoid"]=avoid;		 // The percentage chance that an unit has in dodging a character's attack
+	stats["Accuracy"]=accuracy;      // The percentage chance that an unit's attacks hits
+	stats["Crit"]=crit;		 // The percentage chance that an unit's attack does crit damage
+	stats["Damage"]=damage;		 // The amount of damage an attack does
+	stats["Crit Damage"]=critDamage; // The amount of critical damage an attack does
 	stats["Heal"]=heal;
 }
 
