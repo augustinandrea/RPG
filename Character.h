@@ -18,6 +18,8 @@ class Character
 		string getName();
 		string getClass();
 		bool isDead();
+		int getHP();
+		int getMaxHP();
 		virtual void upgradeClass() = 0;
 		void fight(Character);
 		void takeDamage(int);
