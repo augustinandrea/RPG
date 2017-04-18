@@ -61,6 +61,13 @@ void move(int d, string playerSelect, char move)
     cout << col << row << endl;
     int d[row][col] = 0;
     printMap(d);
+    // Idea:
+    /*
+        Erase current position by setting col and row pos to 0
+        Then have switch(move) case determine new placement of P or E
+            That'll be an if condition to decide which one
+        w = row + 1; and etc.
+    */
     /*
     switch(move))
     {
