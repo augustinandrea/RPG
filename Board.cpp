@@ -11,6 +11,7 @@ using namespace std;
 
 char int_to_terrain(int i);
 void printMap(int d[][COLS]);
+void move(int d[ROWS][COLS], string playerSelect, char move);
 //int playerTurn(int d[][]);
 
 void printMap(int d[][COLS])
@@ -38,7 +39,6 @@ void printMap(int d[][COLS])
 
 char int_to_terrain(int i)
 {
-
     switch(i)
     {
   	    case 0:
@@ -53,6 +53,21 @@ char int_to_terrain(int i)
     return ('*');
 }
 
+void move(int d, string playerSelect, char move)
+{
+    char col, row;
+    col = playerSelect.at(0) - 'A';
+    row = playerSelect.at(1);
+    cout << col << row << endl;
+    int d[row][col] = 0;
+    printMap(d);
+    /*
+    switch(move))
+    {
+        case 'w':
+
+    }*/
+}
 /*
 This will be the basis for playerTurn, and probably enemyTurn as well.
 Also, this will have validity checks, whether inside or as another function.
@@ -82,18 +97,19 @@ int main()
         // red turn
         cout << "Player Phase" << endl;
         bool playerTurn = true;
-        string playerFrom = "";
-        string playerTo = "";
+        char playerMove = ' ';
+        string playerSelect = " ";
+
         while(playerTurn)
         {
-           cout << "move to where? format: A1 (from), B1 (end)" << endl;
-           cin >> playerFrom >> playerTo;
-           // then move based off of coordinate
-           //if(notValid())
-           //{
-           //break; or continue; depending on what code is beneath
-           //}
-           playerTurn = false;
+            cout << "Select which piece to move. ex: (A1)" << endl;
+            cin >> playerSelect;
+            cout << "move to where? up to 3 moves. " << endl;
+            cout << "w (up)  a (left)  s (right)  d (down) " << endl;
+            cin >> playerMove;
+            // move
+            move(d, playerSelect, playerMove);
+            playerTurn = false;
         }
 
 
