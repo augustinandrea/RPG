@@ -20,4 +20,7 @@ void Troubadour::print()
 	cout << ========================================= << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
+	cout << "HP: " << stats["Max HP"] << endl;; 
+	cout << "Avoid: " << stats["Avoid"] << endl;
+	cout << "Heal: " << stats["Heal"] << endl;
 }
