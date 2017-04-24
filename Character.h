@@ -13,19 +13,19 @@ using namespace std;
 class Character
 {
 	public:
-		Character(string="Name", string="Class", bool=false);
+		Character(string="Name", string="Class", bool=false, int=0, int=0, int=0, int=0, int=0, int=0, int=0, int=0);
 		~Character();
 		string getName();
 		string getClass();
 		bool isDead();
 		int getHP();
 		int getMaxHP();
-		virtual void upgradeClass() = 0;
+		virtual void upgradeClass();
 		void fight(Character);
 		void takeDamage(int);
 		void healDamage(int);
 		void dies();
-		virtual void displayInfo() = 0;
+		virtual void displayInfo();
 	private:
 		string Name;
 		string Class;
