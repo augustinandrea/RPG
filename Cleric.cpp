@@ -26,8 +26,8 @@ void Cleric::print()
 	cout << Name << endl;
 	cout << ========================================= << endl;
 	cout << "Class: " << Class << endl;
-	stats["HP"]= stats["Max HP"];                  // The amount of hp a character currently has
-	stats["Max HP"]= 17;		 // The total amount of hp a character has in total
-	stats["Avoid"]=50;		 // The percentage chance that an unit has in dodging a character's attack
-	stats["Heal"] = 5;
+	
+	cout << "HP: " << stats["Max HP"] << endl;; 
+	cout << "Avoid: " << stats["Avoid"] << endl;
+	cout << "Heal Points: " << stats["Heal"] << endl;
 }
