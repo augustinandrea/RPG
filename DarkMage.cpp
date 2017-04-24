@@ -28,11 +28,10 @@ void DarkMage::print()
 	cout << Name << endl;
 	cout << ========================================= << endl;
 	cout << "Class: " << Class << endl;
-        stats["HP"]= stats["Max HP"];              // The amount of hp a character currently has
-        stats["Max HP"]= 17;        // The total amount of hp a character has in total 
-        stats["Avoid"]= 55;         // The percentage chance that an unit has in dodging a character's attack
-        stats["Accuracy"]= 80;      // The percentage chance that an unit's attacks hits 
-        stats["Crit"]= 40;          // The percentage chance that an unit's attack does crit damage                                                
+        cout << "HP: " << stats["Max HP"] << endl;              // The amount of hp a character currently has
+	cout << "Avoid: " << stats["Avoid"] << endl;         // The percentage chance that an unit has in dodging a character's attack
+        cout << "Accuracy: " << stats["Accuracy"] << endl;      // The percentage chance that an unit's attacks hits 
+        cout << "Critical: " << stats["Crit"] << endl;          // The percentage chance that an unit's attack does crit damage                                                
         stats["Damage"]= 10;        // The amount of damage an attack does
         stats["Crit Damage"]= 18;
 }
