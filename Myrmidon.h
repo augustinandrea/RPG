@@ -13,8 +13,8 @@ using namespace std;
 class Myrmidon : public Character
 {
 	public:
-		Myrmidon(string="Name", string="Myrmidon", bool=false );
-		virtual void upgrade Class();
+		Myrmidon(string="Name", string="Myrmidon", bool=false, int=0, int=0, int=0, int=0, int=0, int=0, int=0, int=0);
+		virtual void upgradeClass();
 		virtual void displayInfo();
 		//Any methods a Lord may have that other classes won't
 	private:

@@ -13,8 +13,8 @@ using namespace std;
 class Tactician : public Character
 {
 	public:
-		Tactician(string="Name", string="Tactician", bool=false );
-		virtual void upgrade Class();
+		Tactician(string="Name", string="Tactician", bool=false, int=0, int=0, int=0, int=0, int=0, int=0, int=0, int=0);
+		virtual void upgradeClass();
 		virtual void displayInfo();
 		//Any methods a Tactician may have that other classes won't
 	private:

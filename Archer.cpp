@@ -27,10 +27,9 @@ void Archer::print()
 	cout << ========================================= << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
-	stats["Max HP"] = 19; 
-	stats["HP"] = stats["Max HP"];
-	stats["Avoid"] = 60;
-	stats["Accuracy"] = 60;
-	stats["Crit"] = 40;
-	stats["Damage"] = 6;
+	cout << "HP: " << stats["Max HP"] << endl;; 
+	cout << "Avoid: " << stats["Avoid"] << endl;
+	cout << "Accuracy: " << stats["Accuracy"] << endl;
+	cout << "Crit Rate: " << stats["Crit"] << endl;
+	cout << "Damage: " << stats["Damage"] << endl;
 }

@@ -13,8 +13,8 @@ using namespace std;
 class Barbarian : public Character
 {
 	public:
-		Barbarian(string="Name", string="Barbarian", bool=false );
-		virtual void upgrade Class();
+		Barbarian(string="Name", string="Barbarian", bool=false, int=0, int=0, int=0, int=0, int=0, int=0, int=0, int=0);
+		virtual void upgradeClass();
 		virtual void displayInfo();
 		//Any methods a Barbarian may have that other classes won't
 	private:
