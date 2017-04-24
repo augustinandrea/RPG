@@ -28,11 +28,10 @@ void Cavalier::print()
 	cout << Name << endl;
 	cout << ========================================= << endl;
 	cout << "Class: " << Class << endl;
-	stats["HP"]= stats["Max HP"];                  // The amount of hp a character currently has
-	stats["Max HP"]= 22;		 // The total amount of hp a character has in total
-	stats["Avoid"]= 65;		 // The percentage chance that an unit has in dodging a character's attack
-	stats["Accuracy"]= 87;      // The percentage chance that an unit's attacks hits
-	stats["Crit"]= 50;		 // The percentage chance that an unit's attack does crit damage
-	stats["Damage"]= 8;		 // The amount of damage an attack does
-	stats["Crit Damage"]= 18;
+	
+	cout << "HP: " << stats["Max HP"] << endl;; 
+	cout << "Avoid: " << stats["Avoid"] << endl;
+	cout << "Accuracy: " << stats["Accuracy"] << endl;
+	cout << "Crit Rate: " << stats["Crit"] << endl;
+	cout << "Damage: " << stats["Damage"] << endl;
 }
