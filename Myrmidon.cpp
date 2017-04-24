@@ -20,4 +20,9 @@ void Myrmidon::print()
 	cout << ========================================= << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
+	cout << "HP: " << stats["Max HP"] << endl;; 
+	cout << "Avoid: " << stats["Avoid"] << endl;
+	cout << "Accuracy: " << stats["Accuracy"] << endl;
+	cout << "Crit Rate: " << stats["Crit"] << endl;
+	cout << "Damage: " << stats["Damage"] << endl;
 }
