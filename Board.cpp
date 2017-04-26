@@ -1,6 +1,12 @@
 /*
 Paul Kwak, Data Structures Project
 */
+// Work on adding in bounds for move and checks, always never more than 7,
+// and never less than 0 in move func. otherwise print err message, but allow
+// user to reselect
+// So checks needed in character call, out of bounds, and whether it's a P
+// Checks needed in move and erase, never out of bounds.
+
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -11,7 +17,9 @@ using namespace std;
 
 char int_to_terrain(int i);
 void printMap(int d[][COLS]);
-void move(int d[ROWS][COLS], string playerSelect, char move);
+void erase(int d[][COLS], string playerSelect, char move);
+void move(int d[][COLS], string playerSelect, char move);
+bool battle(int d[][COLS], string playerSelect);
 //int playerTurn(int d[][]);
 
 void printMap(int d[][COLS])
@@ -22,7 +30,7 @@ void printMap(int d[][COLS])
 
     for (row = 0; row < ROWS; ++row)
     {
-        cout << row + 1 << " |";
+        cout << row << " |";
         for (col = 0; col < COLS; ++col)
         {
             printf(" %c |", int_to_terrain(d[row][col]) );
@@ -53,14 +61,27 @@ char int_to_terrain(int i)
     return ('*');
 }
 
-void move(int d, string playerSelect, char move)
+void erase(int d[][COLS], string playerSelect, char move) // for move, and death (hp=0)
 {
-    char col, row;
+    int col, row;
     col = playerSelect.at(0) - 'A';
-    row = playerSelect.at(1);
-    cout << col << row << endl;
-    int d[row][col] = 0;
+    row = playerSelect.at(1) - 48;
+    cout << col << " " << row << endl;
+    d[row][col] = 0;
     printMap(d);
+    cout << endl;
+}
+
+void move(int d[][COLS], string playerSelect, char move)
+{
+    int row, col;
+    erase(d, playerSelect, move);
+
+    col = playerSelect.at(0) - 'A';
+    row = playerSelect.at(1) - 48;
+    /* clear board for animation */
+    // Look at system library
+    //
     // Idea:
     /*
         Erase current position by setting col and row pos to 0
@@ -68,13 +89,46 @@ void move(int d, string playerSelect, char move)
             That'll be an if condition to decide which one
         w = row + 1; and etc.
     */
-    /*
-    switch(move))
+
+    switch(move)
     {
         case 'w':
+            row = row - 1;
+            break;
+        case 'a':
+            col = col - 1;
+            break;
+        case 's':
+            col = col + 1;
+            break;
+        case 'd':
+            row = row + 1;
+            break;
 
-    }*/
+        d[row][col] = 3; // may need if statment for two switches for if(player) else(player2)
+        printMap(d);
+    }
 }
+/*
+bool battle(int d[][COLS], string playerSelect)
+{
+    int col, row;
+    col = playerSelect.at(0) - 'A';
+    row = playerSelect.at(1) - 48;
+    cout << col << " " << row << endl;
+    if(d[row+1][col] == 2);
+    if(d[row-1][col] == 2)
+    if(d[row][col+1] == 2)
+    if(d[row][col-1] == 2)
+    {
+        return true;
+        // call battle func from battle.cpp;
+    }
+
+    else
+        return false;
+}
+*/
 /*
 This will be the basis for playerTurn, and probably enemyTurn as well.
 Also, this will have validity checks, whether inside or as another function.
@@ -100,6 +154,15 @@ int main()
 
     while(true){
         // display board
+        for(int i = 0; i < ROWS; i++)
+        {
+            for(int j = 0; j < COLS; j++)
+            {
+                cout << d[i][j] << " ";
+            }
+            cout << endl;
+        }
+
         printMap(d);
         // red turn
         cout << "Player Phase" << endl;
@@ -116,6 +179,7 @@ int main()
             cin >> playerMove;
             // move
             move(d, playerSelect, playerMove);
+
             playerTurn = false;
         }
 
