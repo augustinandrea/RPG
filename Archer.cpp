@@ -13,12 +13,12 @@ Archer::Archer(string Name, string Class, bool dead, int hp, int maxHP, int avoi
 
 void Archer::upgradeClass() {
 	Class = "Sniper";
-	stats["Max HP"] = 24;
+	stats["Max HP"] = stats["Max HP"] + 7;
 	stats["HP"] = stats["Max HP"];
 	stats["Avoid"] = stats["Avoid"] + 5;
-	stats["Accuracy"] = stats["Accuracy"] + 5;
-	stats["Crit"] = stats["Crit"] + 5;
-	stats["Damage"] = stats["Damage"] + 10;
+	stats["Accuracy"] = stats["Accuracy"] + 10;
+	stats["Crit"] = stats["Crit"] + 10;
+	stats["Damage"] = stats["Damage"] + 8;
 }	
 
 void Archer::displayInfo()
