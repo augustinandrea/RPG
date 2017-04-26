@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string>
 #include <map>
+#include <time.h>
 
 using namespace std;
 
@@ -86,7 +87,7 @@ void enemyInitialization()
 {
         for(int i=0; i<6; i++)
         {
-                srand();
+                srand(time(NULL));
                 int hp = rand()%25+15;
                 switch(rand()%16+1)
                 {
@@ -164,7 +165,7 @@ void enemyInitialization()
                         }
                         case 13:
                         {
-                                int dam = ramd()%9+7;
+                                int dam = rand()%9+7;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Tactician", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
