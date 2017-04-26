@@ -1,8 +1,8 @@
 Game: Main.o Character.o Archer.o Barbarian.o Cavalier.o Cleric.o DarkMage.o Fighter.o Knight.o Lord.o Mage.o Mercenary.o Myrmidon.o PegasusKnight.o Tactician.o Thief.o Troubadour.o WyvernRider.o
-	g++ -o Game Main.o Character.o Archer.o Barbarian.o Cavalier.o Cleric.o DarkMage.o Fighter.o Knight.o Lord.o Mage.o Mercenary.o Myrmidon.o PegasusKnight.o Tactician.o Thief.o Troubadour.o WyvernRider.o
+	g++ -std=c++11 -o Game Main.o Character.o Archer.o Barbarian.o Cavalier.o Cleric.o DarkMage.o Fighter.o Knight.o Lord.o Mage.o Mercenary.o Myrmidon.o PegasusKnight.o Tactician.o Thief.o Troubadour.o WyvernRider.o
 
 Main.o: Main.cpp
-	g++ -c Main.cpp
+	g++ -std=c++11 -c Main.cpp
 
 Character.o: Character.cpp Character.h
 	g++ -c Character.cpp
