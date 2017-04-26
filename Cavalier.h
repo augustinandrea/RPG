@@ -16,8 +16,10 @@ class Cavalier : public Character
 		Cavalier(string="Name", string="Cavalier", bool=false, int=0, int=0, int=0, int=0, int=0, int=0, int=0, int=0);
 		virtual void upgradeClass();
 		virtual void displayInfo();
-		//Any methods a Lord may have that other classes won't
 	private:
-		//Anything a Lord may have that other classes won't
+		string Name;
+		string Class;
+		bool dead;
+		map<string,int> stats;
 };
 #endif
