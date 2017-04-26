@@ -8,16 +8,16 @@
 #include <string>
 using namespace std;
 
-Lord::Lord (string Name, string Class, bool dead) : Character (Name, Class, dead)
+Lord::Lord (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
 {}
 
 void Lord::upgradeClass()
 {Class = "Great Lord";}
 
-void Lord::print()
+void Lord::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
 	cout << "HP: " << stats["Max HP"] << endl;; 
