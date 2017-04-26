@@ -34,8 +34,6 @@ Character party[6];
 int main()
 {
 	characterInitialization();
-        cout << "Initialized Characters" << endl;
-        cout << "Virion's HP is " << characters[0].getHP() << endl;
 	for(int a=0; a<30; a++)
         {
 		characters[a].displayInfo();
@@ -66,8 +64,8 @@ void characterInitialization()
         characters[1]  = Archer("Noire", "Acher", false, 13, 13, 70, 65, 40, 8, 20, 0);
         characters[2] = Barbarian("Bjorn", "Barbarian", false, 25, 25, 60, 30, 10, 8, 20, 0);
         characters[3] = Barbarian("Garrick", "Barbarian", false, 30, 30, 75, 55, 30, 8, 20, 0);
-        characters[4] = Cleric("Lissa", "Cleric", false, 18, 18, 100, 70, 60, 0, 0, 10);
-        characters[5] = Cleric("Brady", "Cleric", false, 18, 18, 100, 70, 60, 0, 0, 10);
+        characters[4] = Cleric("Lissa", "Cleric", false, 18, 18, 100, 70, 0, 0, 0, 10);
+        characters[5] = Cleric("Brady", "Cleric", false, 18, 18, 100, 70, 0, 0, 0, 10);
         characters[6] = DarkMage("Henry", "Dark Mage", false, 17, 17, 55, 80, 50, 10, 18, 0);
         characters[7] = DarkMage("Tharja", "Dark Mage", false, 11, 11, 60, 70, 40, 11, 19, 0);
         characters[8] = Fighter("Vaike", "Fighter", false, 24, 24, 50, 65, 45, 9, 18, 0);
@@ -88,113 +86,113 @@ void characterInitialization()
         characters[23] = Tactician("Morgan", "Tactician", false, 19, 19, 95, 50, 55, 9, 18, 0);
         characters[24] = Thief("Gaius", "Thief", false, 22, 22, 70, 70, 40, 7, 13, 0);
         characters[25] = Thief("Anna", "Thief", false, 22, 22, 70, 70, 40, 7, 13, 0);
-        characters[26] = Troubadour("Maribelle", "Troubadour", false, 18, 18, 100, 70, 60, 0, 0, 10);
-        characters[27] = Troubadour("Libra", "Troubadour", false, 18, 18, 100, 70, 80, 0, 0, 15);
+        characters[26] = Troubadour("Maribelle", "Troubadour", false, 18, 18, 100, 70, 0, 0, 0, 10);
+        characters[27] = Troubadour("Libra", "Troubadour", false, 18, 18, 100, 70, 0, 0, 0, 15);
         characters[28] = WyvernRider("Cherche", "Wyvern Rider", false, 25, 25, 55, 50, 50, 14, 23, 0);
         characters[29] = WyvernRider("Gerome", "Wyvern Rider", false, 22, 22, 64, 55, 40, 10, 19, 0);
 }
 
 void enemyInitialization()
 {
+        srand( time( NULL ) );
         for(int i=0; i<6; i++)
         {
-                srand(time(NULL));
-                int hp = rand()%25+15;
+                int hp = rand()%10+15;
                 switch(rand()%16+1)
                 {
                         case 1:
                         {
-                                int dam = rand()%8+6;
+                                int dam = rand()%2+6;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Archer", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 2:
                         {
-                                int dam = rand()%10+9;
+                                int dam = rand()%1+9;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Barbarian", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 3:
                         {
-                                int dam = rand()%8+7;
+                                int dam = rand()%1+7;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Cavalier", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 4:
                         {
-                                int heal = rand()%9+7;
+                                int heal = rand()%2+7;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Cleric", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, 0, 0, heal);
                                 break;
                         }
                         case 5:
                         {
-                                int dam = rand()%12+10;
+                                int dam = rand()%2+10;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Dark Mage", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 6:
                         {
-                                int dam = rand()%11+9;
+                                int dam = rand()%2+9;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Fighter", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 7:
                         {
-                                int dam = rand()%10+9;
+                                int dam = rand()%1+9;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Knight", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 8:
                         {
-                                int dam = rand()%12+8;
+                                int dam = rand()%4+8;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Lord", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 9:
                         {
-                                int dam = rand()%8+7;
+                                int dam = rand()%1+7;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Mage", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 10:
                         {
-                                int dam = rand()%12+10;
+                                int dam = rand()%2+10;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Mercenary", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 11:
                         {
-                                int dam = rand()%8+6;
+                                int dam = rand()%2+6;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Myrmidon", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 12:
                         {
-                                int dam = rand()%7+6;
+                                int dam = rand()%1+6;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Pegasus Knight", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 13:
                         {
-                                int dam = rand()%9+7;
+                                int dam = rand()%2+7;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Tactician", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 14:
                         {
-                                int dam = rand()%9+7;
+                                int dam = rand()%2+7;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Thief", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
                         case 15:
                         {
-                                int heal = rand()%8+5;
+                                int heal = rand()%3+5;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Troubadour", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, 0, 0, heal);
                                 break;
                         }
                         case 16:
                         {
-                                int dam = rand()%14+11;
+                                int dam = rand()%3+11;
                                 enemies[i] = Character("Enemy " + to_string(i+1), "Wyvern Rider", false, hp, hp, rand()%70+55, rand()%90+65, rand()%70+35, dam, dam*3, 0);
                                 break;
                         }
