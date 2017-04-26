@@ -8,7 +8,7 @@
 #include <string>
 using namespace std;
 
-Mercenary::Mercenary (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
+Mercenary::Mercenary (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead, hp, maxHP, avoid, accuracy, crit, damage, critDamage, heal)
 {}
 
 void Mercenary::upgradeClass()
