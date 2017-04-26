@@ -8,8 +8,7 @@
 #include <string>
 using namespace std;
 
-DarkMage::DarkMage (string Name, string Class, bool dead) : Character (Name, Class, dead) {
-  Name = "Henry", "Tharja";
+DarkMage::DarkMage (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead) {
 }
 
 void DarkMage::upgradeClass() {
@@ -23,15 +22,14 @@ void DarkMage::upgradeClass() {
   stats["Crit Damage"]= stats["Crit Damage"] + 6;
 }
 
-void DarkMage::print()
+void DarkMage::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
-        cout << "HP: " << stats["Max HP"] << endl;              // The amount of hp a character currently has
+  cout << "HP: " << stats["Max HP"] << endl;              // The amount of hp a character currently has
 	cout << "Avoid: " << stats["Avoid"] << endl;         // The percentage chance that an unit has in dodging a character's attack
-        cout << "Accuracy: " << stats["Accuracy"] << endl;      // The percentage chance that an unit's attacks hits 
-        cout << "Critical: " << stats["Crit"] << endl;          // The percentage chance that an unit's attack does crit damage                                                
-        stats["Damage"]= 10;        // The amount of damage an attack does
-        stats["Crit Damage"]= 18;
+  cout << "Accuracy: " << stats["Accuracy"] << endl;      // The percentage chance that an unit's attacks hits 
+  cout << "Critical: " << stats["Crit"] << endl;          // The percentage chance that an unit's attack does crit damage                                                
+  cout << "Damage: " << stats["Damage"] << endl;        // The amount of damage an attack does
 }
