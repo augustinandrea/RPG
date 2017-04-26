@@ -8,16 +8,16 @@
 #include <string>
 using namespace std;
 
-Mage::Mage (string Name, string Class, bool dead) : Character (Name, Class, dead)
+Mage::Mage (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
 {}
 
 void Mage::upgradeClass()
 {Class = "Sage";}
 
-void Mage::print()
+void Mage::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
 	cout << "HP: " << stats["Max HP"] << endl;; 
