@@ -8,16 +8,16 @@
 #include <string>
 using namespace std;
 
-Thief::Thief (string Name, string Class, bool dead) : Character (Name, Class, dead)
+Thief::Thief (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
 {}
 
 void Thief::upgradeClass()
 {Class = "Trickster";}
 
-void Thief::print()
+void Thief::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
 	cout << "HP: " << stats["Max HP"] << endl;; 
