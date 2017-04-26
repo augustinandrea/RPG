@@ -34,8 +34,13 @@ Character party[6];
 int main()
 {
 	characterInitialization();
+        cout << "Initialized Characters" << endl;
+        cout << "Virion's HP is " << characters[0].getHP() << endl;
 	for(int a=0; a<30; a++)
+        {
 		characters[a].displayInfo();
+                cout << endl;
+        }
 	party[0] = characters[0];
 	party[1] = characters[1];
 	party[2] = characters[2];
@@ -43,10 +48,16 @@ int main()
 	party[4] = characters[4];
 	party[5] = characters[5];
 	for(int b=0; b<6; b++)
+        {
 		party[b].displayInfo();
+                cout << endl;
+        }
 	enemyInitialization();
 	for(int c=0; c<6; c++)
+        {
 		enemies[c].displayInfo();
+                cout << endl;
+        }
 }
 
 void characterInitialization()
