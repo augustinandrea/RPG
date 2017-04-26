@@ -8,10 +8,8 @@
 #include <string>
 using namespace std;
 
-Cavaleir::Cavalier (string Name, string Class, bool dead) : Character (Name, Class, dead)
-{ Name_1 = "Stahl";
-  Name_2 = "Sully";
-}
+Cavalier::Cavalier(string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
+{}
 
 void Cavalier::upgradeClass() {
 	Class = "Paladin";
@@ -23,12 +21,11 @@ void Cavalier::upgradeClass() {
 	stats["Crit Damage"]= stats["Crit Damage"] + 6;
 }
 
-void Cavalier::print()
+void Cavalier::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
-	
 	cout << "HP: " << stats["Max HP"] << endl;; 
 	cout << "Avoid: " << stats["Avoid"] << endl;
 	cout << "Accuracy: " << stats["Accuracy"] << endl;
