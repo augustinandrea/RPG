@@ -40,6 +40,77 @@ int main()
 	
 }
 
+void gameSetup()
+{
+	string choice1;
+	int choice2;
+	int count=0;
+	int i, j, k;
+	bool back, part1=true;
+	cout << "WELCOME TO THE FIRE EMBLEM BATTLE SIMULATOR" << endl << endl;
+	cout << "Choose your team" << endl;
+	while(part1)
+	{
+		back = false;
+		for(i=0; i<32; i++)
+		{
+			for(j=0; j<6; j++)
+			{
+				if(characters[i].getName().compare(party[j].getName())!=0)
+				{
+					cout << characters[i].getName() << endl;
+					break;
+				}
+			}
+		}
+		cout << "Select a character to view more info or add to party." << endl;
+		cout << "Select 1 to view your current party." << endl;
+		cin >> choice1;
+		if(choice1.compare("1")==0)
+		{
+			for(j=0; j<6; j++)
+			{
+				if(party[j].getName().compare("Name")!=0)
+					cout << party[j].getName() << endl;
+			}
+			back = true;
+		}
+		while(!back)
+		{
+			cout << "1 View character information" << endl;
+			cout << "2 Add character to party" << endl;
+			cout << "3 Retrun to character selection" << endl;
+			cin >> choice2;
+			if(choice2==1)
+			{
+				for(i=0; i<32; i++)
+				{
+					if(choice1.compare(characters[i].getName())==0)
+						characters[i].displayInfo();
+				}
+			}
+			else if(choice2==2)
+			{
+				for(i=0; i<32; i++)
+				{
+					if(choice1.compare(characters[i].getName())==0)	
+						party[count] = characters[i];
+				}
+				count++;
+				back = true;
+				break;
+			}
+			else if(choice2==3)
+			{
+				back = true;
+				break;
+			}
+		}
+		if(count==6)
+			part1 = false;
+	}
+}
+
 void characterInitialization()
 {
 	characters[0] = Archer("Virion", "Archer", false, 19, 19, 60, 70, 40, 5, 15, 0);
