@@ -8,16 +8,16 @@
 #include <string>
 using namespace std;
 
-Myrmidon::Myrmidon (string Name, string Class, bool dead) : Character (Name, Class, dead)
+Myrmidon::Myrmidon (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
 {}
 
 void Myrmidon::upgradeClass()
 {Class = "Swordmaster";}
 
-void Myrmidon::print()
+void Myrmidon::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
 	cout << "HP: " << stats["Max HP"] << endl;; 
