@@ -8,12 +8,12 @@
 #include <string>
 using namespace std;
 
-Archer::Archer (string Name, string Class, bool dead) : Character (Name, Class, dead)
+Archer::Archer(string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
 {}
 
 void Archer::upgradeClass() {
 	Class = "Sniper";
-	stats["Max HP"] = 24 
+	stats["Max HP"] = 24;
 	stats["HP"] = stats["Max HP"];
 	stats["Avoid"] = stats["Avoid"] + 5;
 	stats["Accuracy"] = stats["Accuracy"] + 5;
@@ -21,12 +21,11 @@ void Archer::upgradeClass() {
 	stats["Damage"] = stats["Damage"] + 10;
 }	
 
-void Archer::print()
+void Archer::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
-	//DISPLAY STATS FROM MAP
 	cout << "HP: " << stats["Max HP"] << endl;; 
 	cout << "Avoid: " << stats["Avoid"] << endl;
 	cout << "Accuracy: " << stats["Accuracy"] << endl;
