@@ -8,16 +8,16 @@
 #include <string>
 using namespace std;
 
-WyvernRider::WyvernRider (string Name, string Class, bool dead) : Character (Name, Class, dead)
+WyvernRider::WyvernRider (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead)
 {}
 
 void WyvernRider::upgradeClass()
 {Class = "Wyvern Lord";}
 
-void WyvernRider::print()
+void WyvernRider::displayInfo()
 {
 	cout << Name << endl;
-	cout << ========================================= << endl;
+	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
 	cout << "HP: " << stats["Max HP"] << endl;; 
