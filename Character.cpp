@@ -3,7 +3,9 @@
 */
 
 #include <iostream>
+#include <stdlib.h>
 #include <string>
+#include <time.h>
 #include "Character.h"
 using namespace std;
 
@@ -40,19 +42,20 @@ bool Character::isDead()
 
 //Getter for HP
 int Character::getHP()
-{return stats["HP"]}
+{return stats["HP"];}
 
 //Getter for Max HP
 int Character::getMaxHP()
-{return stats["Max HP"]}
+{return stats["Max HP"];}
 
 //Virtual function for upgrading character class
-virtual void Character::upgradeClass()
+void Character::upgradeClass()
 {Class = "Upgraded Class";}
 
 //Function for when one character attacks another
 void Character::fight(Character enemy)
 {
+	srand(time(NULL));
 	int critRoll = rand();
 	if(critRoll <= stats["Crit"])
 	{
@@ -62,14 +65,14 @@ void Character::fight(Character enemy)
 	else
 	{
 		int attackRoll = rand();
-		if(roll <= stats["Accuracy"])
+		if(attackRoll <= stats["Accuracy"])
 		{
 			enemy.takeDamage(stats["Damage"]);
 			cout << Name << " hits " << enemy.getName() << " and deals " << stats["Damage"] << " damage!" << endl;
 			if(enemy.stats["HP"]<=0)
 				enemy.dies();
 		}
-		else()
+		else
 		{
 			cout << Name << " misses " << enemy.getName() << "." << endl;
 		}
