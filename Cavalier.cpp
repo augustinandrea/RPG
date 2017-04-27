@@ -14,11 +14,11 @@ Cavalier::Cavalier(string Name, string Class, bool dead, int hp, int maxHP, int 
 void Cavalier::upgradeClass() {
 	Class = "Paladin";
 	stats["HP"]= stats["Max HP"];                  // The amount of hp a character currently has
-	stats["Max HP"]= 42;		 // The total amount of hp a character has in total
-	stats["Avoid"]= stats["Avoid"] + 5;		 // The percentage chance that an unit has in dodging a character's attack
-	stats["Accuracy"]= stats["Accuracy"] + 3;      // The percentage chance that an unit's attacks hit
-	stats["Damage"]= 11;		 // The amount of damage an attack does
-	stats["Crit Damage"]= stats["Crit Damage"] + 6;
+	stats["Max HP"]= stat["Max HP"] + 11;		 // The total amount of hp a character has in total
+	stats["Avoid"]= stats["Avoid"] + 3;		 // The percentage chance that an unit has in dodging a character's attack
+	stats["Accuracy"]= stats["Accuracy"] + 12;      // The percentage chance that an unit's attacks hit
+	stats["Damage"]= stats["Damage"] + 7;		 // The amount of damage an attack does
+	stats["Crit Damage"]= stats["Crit Damage"] + 8;
 }
 
 void Cavalier::displayInfo()
