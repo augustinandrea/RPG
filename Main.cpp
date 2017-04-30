@@ -802,5 +802,6 @@ void move(int d[][COLS], string playerSelect, char move)
     }
 
 		d[row][col] = 3;
+		printMap(d);
 
 }
