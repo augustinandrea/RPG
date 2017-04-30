@@ -375,17 +375,16 @@ void playerTurn()
 
 void checkParty()
 {
-	playerDeadCount = 0;
-	enemyDeadCount = 0;
+	int playerDeadCount = 0;
+	int enemyDeadCount = 0;
 	for(int p=0; p<6; p++)
 	{
-		if(player[p].isDead())
+		if(party[p].isDead())
 			playerDeadCount++;
 	}
 	if(playerDeadCount>=6)
 	{
 		playerLoss = true;
-		break;
 	}
 	for(int e=0; e<6; e++)
 	{
@@ -395,7 +394,6 @@ void checkParty()
 	if(enemyDeadCount>=6)
 	{
 		enemyLoss = true;
-		break;
 	}
 }
 
