@@ -157,7 +157,19 @@ void gameSetup()
 		cout << endl;
 		cout << "Select a character to view more info or add to party" << endl;
 		cout << "Select 1 to view your current party" << endl;
+
+                bool reUse = false;
+
 		cin >> choice1;
+
+                for( int jINeedThis = 0; jINeedThis < 6; jINeedThis++)
+                {
+                     if(( choice1.compare(party[jINeedThis].getName()) == 0 ))
+                     {
+                          reUse = true;
+                     } 
+                }
+
 		if(choice1.compare("1")==0)
 		{
 			for(j=0; j<6; j++)
@@ -168,6 +180,11 @@ void gameSetup()
 			cout << endl << endl;
 			back = true;
 		}
+                else if(( reUse ))
+                {
+                    cout << "Party member already chosen." << endl;
+                    continue;
+                }
 		while(!back)
 		{
 			cout << "1 View character information" << endl;
