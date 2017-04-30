@@ -16,7 +16,7 @@ void Troubadour::upgradeClass(){
   stats["Max HP"] = stats["Max HP"] + 12;
   stats["HP"] = stats["Max HP"];
   stats["Avoid"] = stats["Avoid"] + 17;
-  stats["Heal"] = stats["Heal"] + 9
+  stats["Heal"] = stats["Heal"] + 9;
 }
 
 void Troubadour::displayInfo()
@@ -25,7 +25,7 @@ void Troubadour::displayInfo()
 	cout << "=========================================" << endl;
 	cout << "Class: " << Class << endl;
 	//DISPLAY STATS FROM MAP
-	cout << "HP: " << stats["Max HP"] << endl;; 
+	cout << "HP: " << stats["Max HP"] << endl;;
 	cout << "Avoid: " << stats["Avoid"] << endl;
 	cout << "Heal: " << stats["Heal"] << endl;
 }

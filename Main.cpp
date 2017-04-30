@@ -24,18 +24,35 @@ using namespace std;
 #include "Troubadour.h"
 #include "WyvernRider.h"
 
+#define ROWS 8
+#define COLS 8
+
 void gameSetup();
 void playerTurn();
 void checkParty();
 void enemyTurn();
 void characterInitialization();
 void enemyInitialization();
+char int_to_terrain(int i);
+void printMap(int d[][COLS]);
+void erase(int d[][COLS], string playerSelect, char move);
+void move(int d[][COLS], string playerSelect, char move);
 
 Character characters[32];
 Character enemies[6];
 Character party[6];
 bool playerLoss = false;
 bool enemyLoss = false;
+
+int d[ROWS][COLS]={
+	{0,0,0,0,0, 2,0,0},
+	{3,0,0,4,5,0,0,0},
+	{0,0,6,0,0,0,7,0},
+	{1,1,0,0,0,1,0,0},
+	{0,0,0,0,0,0,0,1},
+	{8,0,0,0,0,0,0,0},
+	{0,9,0,10,0,11,0,12},
+  {0,0,13,0,0,0,0,0}};
 
 int main()
 {
@@ -169,7 +186,7 @@ void gameSetup()
 			{
 				for(i=0; i<32; i++)
 				{
-					if(choice1.compare(characters[i].getName())==0)	
+					if(choice1.compare(characters[i].getName())==0)
 						party[count] = characters[i];
 				}
 				count++;
@@ -192,9 +209,12 @@ void playerTurn()
 	int upgrades = 2, heals = 5;
 	bool turnOver = false;
 	bool canGo[6] = {true, true, true, true, true, true};
+	char move_select;
 	while(!turnOver)
 	{
-		//Print board
+		// Print board
+		printMap(d);
+		// Movement over
 		if(!canGo[0] && !canGo[1] && !canGo[2] && !canGo[3] && !canGo[4] && !canGo[5])
 		{
 			cout << "TURN OVER" << endl;
@@ -203,8 +223,10 @@ void playerTurn()
 		}
 		string choice1;
 		int choice2, choice3, choice4, choice5, choice6;
+		int numMoves = 3;
 		bool pTurnOver = false;
 		bool turnUsed = false;
+		bool moving = true;
 		cout << endl;
 		for(int p=0; p<6; p++)
 		{
@@ -294,6 +316,22 @@ void playerTurn()
 			if(choice3==1)
 			{
 				//Move around board, if move into enemy, attack, if attacked, pTurnOver = true
+				while(numMoves>0 && moving)
+				{
+					cout << "Move character. " << numMoves << " moves left."<< endl;
+	        cout << "w (up)  a (left)  s (right)  d (down)  e (stop moving)" << endl;
+	        cin >> move_select;
+					if(move_select=='e')
+					{
+						moving = false;
+						break;
+					}
+					else
+					{
+						move(d, party[choice2].getName(), move_select);
+						numMoves--;
+					}
+				}
 				cout << "1 Item" << endl;
 				cout << "2 End Character Turn" << endl;
 				cin >> choice4;
@@ -403,6 +441,7 @@ void playerTurn()
 				break;
 			}
 		}
+
 		if(turnUsed)
 		{
 			canGo[choice2] = false;
@@ -596,4 +635,171 @@ void enemyInitialization() //Initializes all of the enemies with random info
             }
         }
     }
+}
+
+/******************************************************************************/
+/******************************************************************************/
+/******************************************************************************/
+/******************************************************************************/
+
+/* Board and movement */
+void printMap(int d[][COLS])
+{
+    int row, col;
+
+    cout << "  +---+---+---+---+---+---+---+---+" << endl;
+
+    for (row = 0; row < ROWS; ++row)
+    {
+        cout << row << " |";
+        for (col = 0; col < COLS; ++col)
+        {
+            printf(" %c |", int_to_terrain(d[row][col]) );
+            //cout << int_to_terrain(d[row][col]) << "  |";
+            //learned some c formatting from Systems Programming
+        }
+        cout << endl;
+        cout << "  +---+---+---+---+---+---+---+---+" << endl;
+    }
+
+    cout << "    A   B   C   D   E   F   G   H" << endl;
+}
+
+
+char int_to_terrain(int i)
+{
+  	    if(i==0)
+            return ' ';
+        else if(i==1)
+            return '.';
+        else if(2<=i<=7)
+            return 'E';
+        else if(8<=i<=13)
+            return 'P';
+    return ('*');
+}
+
+void erase(int d[][COLS], string playerSelect, char move) // for move, and death (hp=0)
+{
+    int col, row, member;
+		if(party[0].getName().compare(playerSelect)==0)
+			member = 8;
+		else if(party[1].getName().compare(playerSelect)==0)
+			member = 9;
+		else if(party[2].getName().compare(playerSelect)==0)
+			member = 10;
+		else if(party[3].getName().compare(playerSelect)==0)
+			member = 11;
+		else if(party[4].getName().compare(playerSelect)==0)
+			member = 12;
+		else if(party[5].getName().compare(playerSelect)==0)
+			member = 13;
+		for(int i = 0; i < ROWS; i++)
+		{
+			for(int j = 0; j < COLS; j++)
+			{
+				if(member==d[i][j])
+				{
+					col = j;
+					row = i;
+				}
+			}
+		}
+    cout << col << " " << row << endl;
+    d[row][col] = 0;
+    printMap(d);
+    cout << endl;
+}
+
+void move(int d[][COLS], string playerSelect, char move)
+{
+    int row, col, count;
+		int member;
+    erase(d, playerSelect, move);
+
+		if(party[0].getName().compare(playerSelect)==0)
+			member = 8;
+		else if(party[1].getName().compare(playerSelect)==0)
+			member = 9;
+		else if(party[2].getName().compare(playerSelect)==0)
+			member = 10;
+		else if(party[3].getName().compare(playerSelect)==0)
+			member = 11;
+		else if(party[4].getName().compare(playerSelect)==0)
+			member = 12;
+		else if(party[5].getName().compare(playerSelect)==0)
+			member = 13;
+		for(int i = 0; i < ROWS; i++)
+		{
+			for(int j = 0; j < COLS; j++)
+			{
+				if(member==d[i][j])
+				{
+					col = j;
+					row = i;
+				}
+			}
+		}
+    /* clear board for animation */
+    // Look at system library
+    //
+    // Idea:
+    /*
+        Erase current position by setting col and row pos to 0
+        Then have switch(move) case determine new placement of P or E
+            That'll be an if condition to decide which one
+        w = row + 1; and etc.
+    */
+    bool legal = true;
+    while(legal && count != 0)
+    {
+        switch(move)
+        {
+            case 'w':
+                row = row - 1;
+                break;
+            case 'a':
+                col = col - 1;
+                break;
+            case 's':
+                col = col + 1;
+                break;
+            case 'd':
+                row = row + 1;
+                break;
+        }
+        if(row < 0 || row > 8 || col < 0 || col > 8)
+        {
+            continue;
+        }
+				if(2<=d[row][col]<=7)
+				{
+					party[d[row][col]-8].fight(enemies[d[row][col]-2]);
+					if(!enemies[d[row][col]].isDead())
+					{
+						switch(move)
+		        {
+		            case 'w':
+		                row = row + 1;
+		                break;
+		            case 'a':
+		                col = col + 1;
+		                break;
+		            case 's':
+		                col = col - 1;
+		                break;
+		            case 'd':
+		                row = row - 1;
+		                break;
+		        }
+					}
+				}
+    }
+
+
+    if(playerTurn)
+    {
+        d[row][col] = 3;
+    }
+
 }

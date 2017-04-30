@@ -18,7 +18,7 @@ using namespace std;
 char int_to_terrain(int i);
 void printMap(int d[][COLS]);
 void erase(int d[][COLS], string playerSelect, char move);
-void move(int d[][COLS], string playerSelect, char move);
+void move(int d[][COLS], string playerSelect, char move, bool playerTurn);
 bool battle(int d[][COLS], string playerSelect);
 //int playerTurn(int d[][]);
 
@@ -72,9 +72,9 @@ void erase(int d[][COLS], string playerSelect, char move) // for move, and death
     cout << endl;
 }
 
-void move(int d[][COLS], string playerSelect, char move)
+void move(int d[][COLS], string playerSelect, char move, bool playerTurn)
 {
-    int row, col;
+    int row, col, count;
     erase(d, playerSelect, move);
 
     col = playerSelect.at(0) - 'A';
@@ -89,25 +89,36 @@ void move(int d[][COLS], string playerSelect, char move)
             That'll be an if condition to decide which one
         w = row + 1; and etc.
     */
-
-    switch(move)
+    bool legal = true;
+    while(legal && count != 0)
     {
-        case 'w':
-            row = row - 1;
-            break;
-        case 'a':
-            col = col - 1;
-            break;
-        case 's':
-            col = col + 1;
-            break;
-        case 'd':
-            row = row + 1;
-            break;
-
-        d[row][col] = 3; // may need if statment for two switches for if(player) else(player2)
-        printMap(d);
+        switch(move)
+        {
+            case 'w':
+                row = row - 1;
+                break;
+            case 'a':
+                col = col - 1;
+                break;
+            case 's':
+                col = col + 1;
+                break;
+            case 'd':
+                row = row + 1;
+                break;
+        }
+        if(row < 0 || row > 8 || col < 0 || col > 8)
+        {
+            continue;
+        }
     }
+
+
+    if(playerTurn)
+    {
+        d[row][col] = 3;
+    }
+
 }
 /*
 bool battle(int d[][COLS], string playerSelect)
@@ -152,7 +163,8 @@ int main()
     {0,3,0,3,0,3,0,3},
 	{0,0,3,0,0,0,0,0}};
 
-    while(true){
+    while(true)
+    {
         // display board
         for(int i = 0; i < ROWS; i++)
         {
@@ -178,7 +190,7 @@ int main()
             cout << "w (up)  a (left)  s (right)  d (down) " << endl;
             cin >> playerMove;
             // move
-            move(d, playerSelect, playerMove);
+            move(d, playerSelect, playerMove, playerTurn);
 
             playerTurn = false;
         }
