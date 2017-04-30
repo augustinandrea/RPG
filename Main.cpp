@@ -203,13 +203,22 @@ void playerTurn()
 		}
 		string choice1;
 		int choice2, choice3, choice4, choice5, choice6;
+		bool pTurnOver = false;
+		bool turnUsed = false;
+		cout << endl;
 		for(int p=0; p<6; p++)
 		{
 			if(canGo[p])
 				cout << party[p].getName() << " ";
 		}
 		cout << endl;
+		for(int e=0; e<6; e++)
+		{
+			cout << enemies[e].getName() << " ";
+		}
+		cout << endl;
 		cout << "Select a character by inputting their name." << endl;
+		cout << "Select an emeny number to view their information." << endl;
 		cout << "Select q to end your turn." << endl;
 		cin >> choice1;
 		if(choice1.compare(party[0].getName())==0 && canGo[0])
@@ -236,6 +245,36 @@ void playerTurn()
 		{
 			choice2 = 5;
 		}
+		else if(choice1.compare("1")==0)
+		{
+			enemies[0].displayInfo();
+			pTurnOver = true;
+		}
+		else if(choice1.compare("2")==0)
+		{
+			enemies[1].displayInfo();
+			pTurnOver = true;
+		}
+		else if(choice1.compare("3")==0)
+		{
+			enemies[2].displayInfo();
+			pTurnOver = true;
+		}
+		else if(choice1.compare("4")==0)
+		{
+			enemies[3].displayInfo();
+			pTurnOver = true;
+		}
+		else if(choice1.compare("5")==0)
+		{
+			enemies[4].displayInfo();
+			pTurnOver = true;
+		}
+		else if(choice1.compare("6")==0)
+		{
+			enemies[5].displayInfo();
+			pTurnOver = true;
+		}
 		else if(choice1.compare("q")==0)
 		{
 			cout << "TURN OVER" << endl;
@@ -244,8 +283,6 @@ void playerTurn()
 		}
 		if(turnOver)
 			break;
-		bool pTurnOver = false;
-		bool turnUsed = false;
 		while(!pTurnOver)
 		{
 			cout << party[choice2].getName() << endl;
