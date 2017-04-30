@@ -756,50 +756,53 @@ void move(int d[][COLS], string playerSelect, char move)
         w = row + 1; and etc.
     */
     bool legal = true;
-    while(legal && count != 0)
+
+    switch(move)
     {
-        switch(move)
-        {
-            case 'w':
-                row = row - 1;
-                break;
-            case 'a':
-                col = col - 1;
-                break;
-            case 's':
-                col = col + 1;
-                break;
-            case 'd':
-                row = row + 1;
-                break;
-        }
-        if(row < 0 || row > 8 || col < 0 || col > 8)
-        {
-            continue;
-        }
-				if(d[row][col] >= 2 && d[row][col] <=7)
-				{
-					party[d[row][col]-8].fight(enemies[d[row][col]-2]);
-					if(!enemies[d[row][col]].isDead())
-					{
-						switch(move)
-		        {
-		            case 'w':
-		                row = row + 1;
-		                break;
-		            case 'a':
-		                col = col + 1;
-		                break;
-		            case 's':
-		                col = col - 1;
-		                break;
-		            case 'd':
-		                row = row - 1;
-		                break;
-		        }
-					}
-				}
+      case 'w':
+        row = row - 1;
+      	break;
+      case 'a':
+        col = col - 1;
+        break;
+      case 's':
+        col = col + 1;
+        break;
+      case 'd':
+        row = row + 1;
+        break;
     }
+/*
+    if(row < 0 || row > 8 || col < 0 || col > 8)
+    {
+      continue;
+    }
+*/
+		if(d[row][col] >= 2 && d[row][col] <=7)
+		{
+			cout << d[row][col] << endl;
+			party[d[row][col]-8].fight(enemies[d[row][col]-2]);
+			cout << d[row][col] << endl;
+			if(!enemies[d[row][col]-2].isDead())
+			{
+				switch(move)
+		    {
+		    	case 'w':
+		       	row = row + 1;
+		         break;
+		      case 'a':
+		        col = col + 1;
+		        break;
+		      case 's':
+	         	col = col - 1;
+			      break;
+		      case 'd':
+		        row = row - 1;
+		        break;
+		   	}
+			}
+		}
+
 
 		d[row][col] = 3;
 		printMap(d);

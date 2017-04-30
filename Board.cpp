@@ -107,17 +107,19 @@ void move(int d[][COLS], string playerSelect, char move, bool playerTurn)
                 row = row + 1;
                 break;
         }
-        if(row < 0 || row > 8 || col < 0 || col > 8)
-        {
-            continue;
-        }
+
+        //if(row < 0 || row > 8 || col < 0 || col > 8)
+        //{
+        //    continue;
+        //}
     }
 
 
-    if(playerTurn)
-    {
+    //if(playerTurn)
+    //{
         d[row][col] = 3;
-    }
+        //printMap(d);
+    //}
 
 }
 /*
@@ -195,7 +197,7 @@ int main()
             playerTurn = false;
         }
 
-
+        cout << endl;
         //display board
         printMap(d);
 
