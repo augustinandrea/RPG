@@ -674,7 +674,7 @@ char int_to_terrain(int i)
         else if(i==1){
 					return '.';
 				}
-        else if(2<=i<=7){
+        else if(i >= 2 && i <=7){
 					return 'E';
 				}
         else{
@@ -777,7 +777,7 @@ void move(int d[][COLS], string playerSelect, char move)
         {
             continue;
         }
-				if(2<=d[row][col]<=7)
+				if(d[row][col] >= 2 && d[row][col] <=7)
 				{
 					party[d[row][col]-8].fight(enemies[d[row][col]-2]);
 					if(!enemies[d[row][col]].isDead())
