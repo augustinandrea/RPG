@@ -157,7 +157,19 @@ void gameSetup()
 		cout << endl;
 		cout << "Select a character to view more info or add to party" << endl;
 		cout << "Select 1 to view your current party" << endl;
+
+                bool reUse = false;
+
 		cin >> choice1;
+
+                for( int jINeedThis = 0; jINeedThis < 6; jINeedThis++)
+                {
+                     if(( choice1.compare(party[jINeedThis].getName()) == 0 ))
+                     {
+                          reUse = true;
+                     } 
+                }
+
 		if(choice1.compare("1")==0)
 		{
 			for(j=0; j<6; j++)
@@ -168,6 +180,11 @@ void gameSetup()
 			cout << endl << endl;
 			back = true;
 		}
+                else if(( reUse ))
+                {
+                    cout << "Party member already chosen." << endl;
+                    continue;
+                }
 		while(!back)
 		{
 			cout << "1 View character information" << endl;
@@ -498,8 +515,8 @@ void characterInitialization() //Initializes all of the characters with their gi
     characters[15] = Lord("Lucina", "Lord", false, 22, 22, 63, 90, 70, 9, 17, 0);
     characters[16] = Mage("Ricken", "Mage", false, 20, 20, 50, 70, 65, 8, 18, 0);
     characters[17] = Mage("Miriel", "Mage", false,21, 21, 65, 75, 50, 6, 12, 0);
-    characters[18] = Mercenary("Gregor", "Mercenary", false, 22, 22, 65, 50, 12, 20, 0);
-    characters[19] = Mercenary("Severa", "Mercenary", false, 28, 28, 55, 85, 10, 18, 0);
+    characters[18] = Mercenary("Gregor", "Mercenary", false, 22, 22, 75, 75, 12, 18, 0);
+    characters[19] = Mercenary("Severa", "Mercenary", false, 28, 28, 60, 85, 10, 20, 0);
     characters[20] = Myrmidon("Lon'qu", "Myrmidon", false, 20, 20, 75, 65, 55, 6, 13,0);
     characters[21] = Myrmidon("Owain", "Myrmidon", false, 15, 15, 45, 85, 50, 8, 17, 0);
     characters[22] = PegasusKnight("Sumia","Pegasus Knight", false, 18, 18, 70, 70, 60, 6, 17, 0);
