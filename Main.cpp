@@ -45,7 +45,7 @@ bool playerLoss = false;
 bool enemyLoss = false;
 
 int d[ROWS][COLS]={
-	{0,0,0,0,0, 2,0,0},
+	{0,0,0,0,0,2,0,0},
 	{3,0,0,4,5,0,0,0},
 	{0,0,6,0,0,0,7,0},
 	{1,1,0,0,0,1,0,0},
@@ -58,7 +58,7 @@ int main()
 {
 	characterInitialization(); //Creates all of the game's characters
 	gameSetup(); //Prompts user to create party
-    enemyInitialization(); //Creates all of the enemies
+  enemyInitialization(); //Creates all of the enemies
 
 	cout << endl << "GAME START" << endl;
 	bool end = false;
@@ -240,7 +240,7 @@ void playerTurn()
 		}
 		cout << endl;
 		cout << "Select a character by inputting their name." << endl;
-		cout << "Select an emeny number to view their information." << endl;
+		cout << "Select an enemy number to view their information." << endl;
 		cout << "Select q to end your turn." << endl;
 		cin >> choice1;
 		if(choice1.compare(party[0].getName())==0 && canGo[0])
@@ -674,7 +674,7 @@ char int_to_terrain(int i)
             return '.';
         else if(2<=i<=7)
             return 'E';
-        else if(8<=i<=13)
+        else
             return 'P';
     return ('*');
 }
