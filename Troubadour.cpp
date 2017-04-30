@@ -11,8 +11,13 @@ using namespace std;
 Troubadour::Troubadour (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead, hp, maxHP, avoid, accuracy, crit, damage, critDamage, heal)
 {}
 
-void Troubadour::upgradeClass()
-{Class = "Valkyrie";}
+void Troubadour::upgradeClass(){
+  Class = "Valkyrie";
+  stats["Max HP"] = stats["Max HP"] + 12;
+  stats["HP"] = stats["Max HP"];
+  stats["Avoid"] = stats["Avoid"] + 17;
+  stats["Heal"] = stats["Heal"] + 9
+}
 
 void Troubadour::displayInfo()
 {
