@@ -668,14 +668,18 @@ void printMap(int d[][COLS])
 
 char int_to_terrain(int i)
 {
-  	    if(i==0)
-            return ' ';
-        else if(i==1)
-            return '.';
-        else if(2<=i<=7)
-            return 'E';
-        else
-            return 'P';
+  	    if(i==0){
+					return ' ';
+				}
+        else if(i==1){
+					return '.';
+				}
+        else if(2<=i<=7){
+					return 'E';
+				}
+        else{
+					return 'P';
+				}
     return ('*');
 }
 
@@ -729,6 +733,7 @@ void move(int d[][COLS], string playerSelect, char move)
 			member = 12;
 		else if(party[5].getName().compare(playerSelect)==0)
 			member = 13;
+
 		for(int i = 0; i < ROWS; i++)
 		{
 			for(int j = 0; j < COLS; j++)
@@ -796,10 +801,6 @@ void move(int d[][COLS], string playerSelect, char move)
 				}
     }
 
-
-    if(playerTurn)
-    {
-        d[row][col] = 3;
-    }
+		d[row][col] = 3;
 
 }
