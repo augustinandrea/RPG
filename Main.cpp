@@ -55,11 +55,23 @@ int main()
 			end = true;
 			break;
 		}
+		else if(enemyLoss)
+		{
+			cout << "BATTLE WON" << endl;
+			end = true;
+			break;
+		}
 		enemyTurn();
 		checkParty();
 		if(enemyLoss)
 		{
 			cout << "BATTLE WON" << endl;
+			end = true;
+			break;
+		}
+		else if(playerLoss)
+		{
+			cout << "GAME OVER" << endl;
 			end = true;
 			break;
 		}
@@ -78,17 +90,54 @@ void gameSetup()
 	while(part1)
 	{
 		back = false;
-		for(i=0; i<32; i++)
+		for(i=0; i<8; i++)
 		{
 			for(j=0; j<6; j++)
 			{
 				if(characters[i].getName().compare(party[j].getName())!=0)
 				{
-					cout << characters[i].getName() << endl;
+					cout << characters[i].getName() << "\t";
 					break;
 				}
 			}
 		}
+		cout << endl;
+		for(i=8; i<16; i++)
+		{
+			for(j=0; j<6; j++)
+			{
+				if(characters[i].getName().compare(party[j].getName())!=0)
+				{
+					cout << characters[i].getName() << "\t";
+					break;
+				}
+			}
+		}
+		cout << endl;
+		for(i=16; i<24; i++)
+		{
+			for(j=0; j<6; j++)
+			{
+				if(characters[i].getName().compare(party[j].getName())!=0)
+				{
+					cout << characters[i].getName() << "\t";
+					break;
+				}
+			}
+		}
+		cout << endl;
+		for(i=24; i<32; i++)
+		{
+			for(j=0; j<6; j++)
+			{
+				if(characters[i].getName().compare(party[j].getName())!=0)
+				{
+					cout << characters[i].getName() << "\t";
+					break;
+				}
+			}
+		}
+		cout << endl;
 		cout << "Select a character to view more info or add to party" << endl;
 		cout << "Select 1 to view your current party" << endl;
 		cin >> choice1;
@@ -97,8 +146,9 @@ void gameSetup()
 			for(j=0; j<6; j++)
 			{
 				if(party[j].getName().compare("Name")!=0)
-					cout << party[j].getName() << endl;
+					cout << party[j].getName() << " ";
 			}
+			cout << endl << endl;
 			back = true;
 		}
 		while(!back)
@@ -145,6 +195,12 @@ void playerTurn()
 	while(!turnOver)
 	{
 		//Print board
+		if(!canGo[0] && !canGo[1] && !canGo[2] && !canGo[3] && !canGo[4] && !canGo[5])
+		{
+			cout << "TURN OVER" << endl;
+			turnOver = true;
+			break;
+		}
 		string choice1;
 		int choice2, choice3, choice4, choice5, choice6;
 		for(int p=0; p<6; p++)
@@ -180,9 +236,9 @@ void playerTurn()
 		{
 			choice2 = 5;
 		}
-		else if(choice1.compare("q")==0 || (!canGo[0] && !canGo[1] && !canGo[2] && !canGo[3] && !canGo[4] && !canGo[5]))
+		else if(choice1.compare("q")==0)
 		{
-			cout << "Turn Over" << endl;
+			cout << "TURN OVER" << endl;
 			turnOver = true;
 			break;
 		}
@@ -319,7 +375,28 @@ void playerTurn()
 
 void checkParty()
 {
-	cout << "CHECKS PARTY" << endl;
+	playerDeadCount = 0;
+	enemyDeadCount = 0;
+	for(int p=0; p<6; p++)
+	{
+		if(player[p].isDead())
+			playerDeadCount++;
+	}
+	if(playerDeadCount>=6)
+	{
+		playerLoss = true;
+		break;
+	}
+	for(int e=0; e<6; e++)
+	{
+		if(enemies[e].isDead())
+			enemyDeadCount++;
+	}
+	if(enemyDeadCount>=6)
+	{
+		enemyLoss = true;
+		break;
+	}
 }
 
 void enemyTurn()
