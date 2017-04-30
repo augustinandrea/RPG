@@ -137,8 +137,8 @@ void characterInitialization()
         characters[21] = Myrmidon("Owain", "Myrmidon", false, 15, 15, 45, 85, 50, 8, 17, 0);
         characters[22] = PegasusKnight("Sumia","Pegasus Knight", false, 18, 18, 70, 70, 60, 6, 17, 0);
         characters[23] = PegasusKnight("Cordelia", "Pegasus Knight", false, 25, 25, 60, 60, 45, 9, 18, 0);
-        characters[24] = Tactician("Robin", "Tactician", false, 19, 19, 50, 85, 55, 9, 18, 0);
-        characters[25] = Tactician("Morgan", "Tactician", false, 19, 19, 70, 85, 55, 9, 18, 0);
+        characters[24] = Tactician("Robin", "Tactician", false, 21, 21, 50, 85, 55, 9, 18, 0);
+        characters[25] = Tactician("Morgan", "Tactician", false, 19, 19, 70, 80, 55, 9, 18, 0);
         characters[26] = Thief("Gaius", "Thief", false, 24, 24, 70, 80, 40, 7, 13, 0);
         characters[27] = Thief("Anna", "Thief", false, 20, 20, 60, 73, 30, 8, 19, 0);
         characters[28] = Troubadour("Maribelle", "Troubadour", false, 18, 18, 70, 100, 0, 0, 0, 10);

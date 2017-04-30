@@ -13,10 +13,12 @@ Cleric::Cleric (string Name, string Class, bool dead, int hp, int maxHP, int avo
 
 void Cleric::upgradeClass() {
   Class = "War Cleric";
-  stats["HP"]= stats["Max HP"];
-  stats["Max HP"]= stats["Max HP"] + 7;
-  stats["Avoid"]= stats["Avoid"] + 10;
-  stats["Heal"] = stats["Heal"] + 5;
+  stats["Max HP"] = stats["Max HP"] + 7;
+  stats["HP"] = stats["Max HP"];
+  stats["Avoid"] = stats["Avoid"] + 11;
+  stats["Accuracy"] = stats["Accuracy"] - 5;
+  stats["Crit"] = stats["Crit"];
+  stats["Damage"] = stats["Damage"] + 9;
 }
 
 void Cleric::displayInfo()

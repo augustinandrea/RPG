@@ -11,8 +11,15 @@ using namespace std;
 Mage::Mage (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead, hp, maxHP, avoid, accuracy, crit, damage, critDamage, heal)
 {}
 
-void Mage::upgradeClass()
-{Class = "Sage";}
+void Mage::upgradeClass(){
+  Class = "Sage";
+  stats["Max HP"] = stats["Max HP"] + 13;
+  stats["HP"] = stats["Max HP"];
+  stats["Avoid"] = stats["Avoid"] + 8;
+  stats["Accuracy"] = stats["Accuracy"] + 5;
+  stats["Crit"] = stats["Crit"] + 10;
+  stats["Damage"] = stats["Damage"] + 4;
+}
 
 void Mage::displayInfo()
 {

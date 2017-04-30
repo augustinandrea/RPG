@@ -11,8 +11,15 @@ using namespace std;
 Mercenary::Mercenary (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead, hp, maxHP, avoid, accuracy, crit, damage, critDamage, heal)
 {}
 
-void Mercenary::upgradeClass()
-{Class = "Hero";}
+void Mercenary::upgradeClass(){
+  Class = "Hero";
+  stats["Max HP"] = stats["Max HP"] + 17;
+  stats["HP"] = stats["Max HP"];
+  stats["Avoid"] = stats["Avoid"] + 5;
+  stats["Accuracy"] = stats["Accuracy"] + 9;
+  stats["Crit"] = stats["Crit"] + 10;
+  stats["Damage"] = stats["Damage"] + 7;
+}
 
 void Mercenary::displayInfo()
 {

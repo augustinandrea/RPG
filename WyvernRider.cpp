@@ -11,8 +11,15 @@ using namespace std;
 WyvernRider::WyvernRider (string Name, string Class, bool dead, int hp, int maxHP, int avoid, int accuracy, int crit, int damage, int critDamage, int heal) : Character (Name, Class, dead, hp, maxHP, avoid, accuracy, crit, damage, critDamage, heal)
 {}
 
-void WyvernRider::upgradeClass()
-{Class = "Wyvern Lord";}
+void WyvernRider::upgradeClass(){
+  Class = "Wyvern Lord";
+  stats["Max HP"] = stats["Max HP"] + 12;
+  stats["HP"] = stats["Max HP"];
+  stats["Avoid"] = stats["Avoid"];
+  stats["Accuracy"] = stats["Accuracy"] + 8;
+  stats["Crit"] = stats["Crit"] + 9;
+  stats["Damage"] = stats["Damage"] + 9;
+}
 
 void WyvernRider::displayInfo()
 {
