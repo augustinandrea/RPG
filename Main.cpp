@@ -141,7 +141,7 @@ void playerTurn()
 {
 	int upgrades = 2, heals = 5;
 	bool turnOver = false;
-	bool canGo[6] = true;
+	bool canGo[6] = {true, true, true, true, true, true};
 	while(!turnOver)
 	{
 		//Print board
@@ -156,32 +156,33 @@ void playerTurn()
 		cout << "Select a character by inputting their name." << endl;
 		cout << "Select q to end your turn." << endl;
 		cin >> choice1;
-		if(choice1.compare(party[0].getName()) && canGo[0])
+		if(choice1.compare(party[0].getName())==0 && canGo[0])
 		{
 			choice2 = 0;
 		}
-		else if(choice1.compare(party[1].getName()) && canGo[1])
+		else if(choice1.compare(party[1].getName())==0 && canGo[1])
 		{
 			choice2 = 1;
 		}
-		else if(choice1.compare(party[2].getName()) && canGo[2])
+		else if(choice1.compare(party[2].getName())==0 && canGo[2])
 		{
 			choice2 = 2;
 		}
-		else if(choice1.compare(party[3].getName()) && canGo[3])
+		else if(choice1.compare(party[3].getName())==0 && canGo[3])
 		{
 			choice2 = 3;
 		}
-		else if(choice1.compare(party[4].getName()) && canGo[4])
+		else if(choice1.compare(party[4].getName())==0 && canGo[4])
 		{
 			choice2 = 4;
 		}
-		else if(choice1.compare(party[5].getName()) && canGo[5])
+		else if(choice1.compare(party[5].getName())==0 && canGo[5])
 		{
 			choice2 = 5;
 		}
-		else if(choice1.compare("q") || (!canGo[0] && !canGo[1] && !canGo[2] && !canGo[3] && !canGo[4] && !canGo[5]))
+		else if(choice1.compare("q")==0 || (!canGo[0] && !canGo[1] && !canGo[2] && !canGo[3] && !canGo[4] && !canGo[5]))
 		{
+			cout << "Turn Over" << endl;
 			turnOver = true;
 			break;
 		}
