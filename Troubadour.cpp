@@ -29,3 +29,6 @@ void Troubadour::displayInfo()
 	cout << "Avoid: " << stats["Avoid"] << endl;
 	cout << "Heal: " << stats["Heal"] << endl;
 }
+
+int Troubadour::getHeal()
+{return stats["Heal"];}
