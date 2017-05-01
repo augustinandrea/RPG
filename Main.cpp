@@ -44,6 +44,8 @@ Character enemies[6];
 Character party[6];
 bool playerLoss = false;
 bool enemyLoss = false;
+int upgrades = 2;
+int heals = 5;
 
 int d[ROWS][COLS]={
 	{0,0,0,0,0,2,0,0},
@@ -250,7 +252,6 @@ void gameSetup()
 
 void playerTurn()
 {
-	int upgrades = 2, heals = 5;
 	bool turnOver = false;
 	bool canGo[6] = {true, true, true, true, true, true};
 	char move_select;
@@ -448,6 +449,7 @@ void playerTurn()
 					}
 					else
 					{
+						printMap(d);
 						moving = move(d, party[choice2].getName(), move_select);
 						numMoves--;
 					}
@@ -873,7 +875,6 @@ void erase(int d[][COLS], string playerSelect, char move) // for move, and death
 		}
     cout << col << " " << row << endl;
     d[row][col] = 0;
-    printMap(d);
     cout << endl;
 }
 
@@ -985,7 +986,6 @@ bool move(int d[][COLS], string playerSelect, char move)
 		else if(member==13)
 			d[row][col] = 13;
 	}
-	printMap(d);
 	return !fought;
 }
 
