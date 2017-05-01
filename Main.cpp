@@ -99,6 +99,7 @@ void gameSetup()
 {
 	string choice1;
 	int choice2;
+        string choice2s;
 	int count=0;
 	int i, j;
 	bool back, part1=true;
@@ -204,7 +205,18 @@ void gameSetup()
 			cout << "1 View character information" << endl;
 			cout << "2 Add character to party" << endl;
 			cout << "3 Retrun to character selection" << endl;
-			cin >> choice2;
+			cin >> choice2s;
+
+                        for( int strIt = 0; strIt < choice2s.size(); strIt++ )
+                        {
+                            if(( !(isdigit( choice2s[ strIt ] ) ) ))
+                            {
+                                cout << "Don't input strings. Just don't." << endl;
+                                continue;
+                            }
+                        }
+                        choice2 = stoi( choice2s );
+
 			if(choice2==1)
 			{
 				for(i=0; i<32; i++)
@@ -254,6 +266,7 @@ void playerTurn()
 		}
 		string choice1;
 		int choice2, choice3, choice4, choice5, choice6;
+                string choice3s, choice4s, choice5s, choice6s;
 		int numMoves = 3;
 		bool pTurnOver = false;
 		bool turnUsed = false;
@@ -406,7 +419,19 @@ void playerTurn()
 			cout << "2 Item" << endl;
 			cout << "3 View Info" << endl;
 			cout << "4 Go Back" << endl;
-			cin >> choice3;
+			cin >> choice3s;
+
+                        for( int boodles = 0; boodles < choice3s.size(); boodles++ )
+                        {
+                            if(( !(isdigit( choice3s[boodles] ) ) ))
+                            {
+                                cout << "I warned you about the strings bro." << endl;
+                                continue;
+                            }
+                        }
+
+                        choice3 = stoi( choice3s );
+
 			if(choice3==1)
 			{
 				//Move around board, if move into enemy, attack, if attacked, pTurnOver = true
@@ -429,13 +454,37 @@ void playerTurn()
 				}
 				cout << "1 Item" << endl;
 				cout << "2 End Character Turn" << endl;
-				cin >> choice4;
+				cin >> choice4s;
+
+                                for( int spinnies = 0; spinnies < choice4s.size(); spinnies++ )
+                                {
+                                     if(( !(isdigit(choice4s[spinnies]) ) ))
+                                     {
+                                          cout << "PICK A GOD AND PRAY!" << endl;
+                                          continue;
+                                      }
+                                }
+
+                                choice4 = stoi( choice4s );
+
 				if(choice4==1)
 				{
 					cout << "1 Upgrade Character" << endl;
 					cout << "2 Heal Character" << endl;
 					cout << "3 Go Back" << endl;
-					cin >> choice5;
+					cin >> choice5s;
+
+                                        for( int levin = 0; levin < choice5s.size(); levin++ )
+                                        {
+                                             if(( !(isdigit(choice5s[levin]) ) ))
+                                             {
+                                                 cout << "Now Im angry!" << endl;
+                                                 continue;
+                                             }
+                                        }
+
+                                        choice5 = stoi( choice5s );
+
 					if(choice5==1)
 					{
 						if(upgrades>0)
@@ -489,7 +538,19 @@ void playerTurn()
 				cout << "1 Upgrade Character" << endl;
 				cout << "2 Heal Character" << endl;
 				cout << "3 Go Back" << endl;
-				cin >> choice6;
+				cin >> choice6s;
+
+                                for( int validar = 0; validar < choice6s.size(); validar++ )
+                                {
+                                     if(( !(isdigit(choice6s[validar]) ) ))
+                                     {
+                                         cout << "Now youve angered me." << endl;
+                                         continue;
+                                     } 
+                                }
+   
+                                choice6 = stoi(choice6s);
+
 				if(choice6==1)
 				{
 					if(upgrades>0)
