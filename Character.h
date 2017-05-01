@@ -20,6 +20,10 @@ class Character
 		bool isDead();
 		int getHP();
 		int getMaxHP();
+		int getHeal();
+		int getAvoid();
+		int getAccuracy();
+		int getDamage();
 		virtual void upgradeClass();
 		void fight(Character);
 		void takeDamage(int);
