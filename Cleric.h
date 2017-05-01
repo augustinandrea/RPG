@@ -16,6 +16,7 @@ class Cleric : public Character
 		Cleric(string="Name", string="Cleric", bool=false, int=0, int=0, int=0, int=0, int=0, int=0, int=0, int=0);
 		virtual void upgradeClass();
 		virtual void displayInfo();
+		int getHeal();
 	private:
 		string Name;
 		string Class;
