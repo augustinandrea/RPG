@@ -24,8 +24,9 @@ class Character
 		int getAvoid();
 		int getAccuracy();
 		int getDamage();
+		int getCrit();
+		int getCritDamage();
 		virtual void upgradeClass();
-		void fight(Character);
 		void takeDamage(int);
 		void healDamage(int);
 		void dies();
