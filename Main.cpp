@@ -258,16 +258,29 @@ void playerTurn()
 		bool pTurnOver = false;
 		bool turnUsed = false;
 		bool moving = true;
+		int r, c;
+
 		cout << endl;
-		for(int p=0; p<6; p++)
+		for(r=0; r<8; r++)
 		{
-			if(canGo[p])
-				cout << party[p].getName() << " ";
+			for(c=0; c<8; c++)
+			{
+				if(8<=d[r][c] && d[r][c]<=13 && canGo[d[r][c]-8])
+				{
+					cout << party[d[r][c]-8].getName() << " (" << r << ", " << char(c+65) << ") ";
+				}
+			}
 		}
 		cout << endl;
-		for(int e=0; e<6; e++)
+		for(r=0; r<8; r++)
 		{
-			cout << enemies[e].getName() << " ";
+			for(c=0; c<8; c++)
+			{
+				if(2<=d[r][c] && d[r][c]<=7)
+				{
+					cout << enemies[d[r][c]-2].getName() << " (" << r << ", " << char(c+65) << ") ";
+				}
+			}
 		}
 		cout << endl;
 		cout << "Select a character by inputting their name." << endl;
@@ -378,11 +391,17 @@ void playerTurn()
 			turnOver = true;
 			break;
 		}
+		else
+		{
+			cout << "Please enter valid option." << endl;
+			pTurnOver = true;
+			turnOver = false;
+			break;
+		}
 		if(turnOver)
 			break;
 		while(!pTurnOver)
 		{
-			cout << party[choice2].getName() << endl;
 			cout << "1 Move" << endl;
 			cout << "2 Item" << endl;
 			cout << "3 View Info" << endl;
@@ -404,7 +423,8 @@ void playerTurn()
 					else
 					{
 						moving = move(d, party[choice2].getName(), move_select);
-						numMoves--;
+						if(moving)
+							numMoves--;
 					}
 				}
 				cout << "1 Item" << endl;
@@ -855,24 +875,33 @@ bool move(int d[][COLS], string playerSelect, char move)
 */
 	if(d[row][col] >= 2 && d[row][col] <=7)
 	{
-		party[member-8].fight(enemies[d[row][col]-2]);	
-		if(enemies[d[row][col]-2].isDead())
+		if(party[member-8].getClass().compare("Cleric") && party[member-8].getClass().compare("Troubadour"))
 		{
-			erase(d, playerSelect, move);
-			if(member==8)
-				d[row][col] = 8;
-			else if(member==9)
-				d[row][col] = 9;
-			else if(member==10)
-				d[row][col] = 10;
-			else if(member==11)
-				d[row][col] = 11;
-			else if(member==12)
-				d[row][col] = 12;
-			else if(member==13)
-				d[row][col] = 13;
+			party[member-8].fight(enemies[d[row][col]-2]);
+			cout << "Enemy HP: " << enemies[d[row][col]-2].getHP() << endl;	
+			if(enemies[d[row][col]-2].isDead())
+			{
+				erase(d, playerSelect, move);
+				if(member==8)
+					d[row][col] = 8;
+				else if(member==9)
+					d[row][col] = 9;
+				else if(member==10)
+					d[row][col] = 10;
+				else if(member==11)
+					d[row][col] = 11;
+				else if(member==12)
+					d[row][col] = 12;
+				else if(member==13)
+					d[row][col] = 13;
+			}
+			fought = true;
 		}
-		fought = true;
+		else
+		{
+			party[d[row][col]-8].healDamage(party[member-8].getHeal());
+			cout << party[member-8].getName() << " healed " << party[d[row][col]-8].getName() << endl;
+		}
 	}
 	if(d[row][col]==0)
 	{
