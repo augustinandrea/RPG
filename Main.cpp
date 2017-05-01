@@ -37,12 +37,15 @@ char int_to_terrain(int i);
 void printMap(int d[][COLS]);
 void erase(int d[][COLS], string playerSelect, char move);
 bool move(int d[][COLS], string playerSelect, char move);
+void fight(int, int, int);
 
 Character characters[32];
 Character enemies[6];
 Character party[6];
 bool playerLoss = false;
 bool enemyLoss = false;
+int upgrades = 2;
+int heals = 5;
 
 int d[ROWS][COLS]={
 	{0,0,0,0,0,2,0,0},
@@ -99,6 +102,7 @@ void gameSetup()
 {
 	string choice1;
 	int choice2;
+        string choice2s;
 	int count=0;
 	int i, j;
 	bool back, part1=true;
@@ -204,7 +208,18 @@ void gameSetup()
 			cout << "1 View character information" << endl;
 			cout << "2 Add character to party" << endl;
 			cout << "3 Retrun to character selection" << endl;
-			cin >> choice2;
+			cin >> choice2s;
+
+                        for( int strIt = 0; strIt < choice2s.size(); strIt++ )
+                        {
+                            if(( !(isdigit( choice2s[ strIt ] ) ) ))
+                            {
+                                cout << "Don't input strings. Just don't." << endl;
+                                continue;
+                            }
+                        }
+                        choice2 = stoi( choice2s );
+
 			if(choice2==1)
 			{
 				for(i=0; i<32; i++)
@@ -237,7 +252,6 @@ void gameSetup()
 
 void playerTurn()
 {
-	int upgrades = 2, heals = 5;
 	bool turnOver = false;
 	bool canGo[6] = {true, true, true, true, true, true};
 	char move_select;
@@ -254,20 +268,34 @@ void playerTurn()
 		}
 		string choice1;
 		int choice2, choice3, choice4, choice5, choice6;
+                string choice3s, choice4s, choice5s, choice6s;
 		int numMoves = 3;
 		bool pTurnOver = false;
 		bool turnUsed = false;
 		bool moving = true;
+		int r, c;
+
 		cout << endl;
-		for(int p=0; p<6; p++)
+		for(r=0; r<8; r++)
 		{
-			if(canGo[p])
-				cout << party[p].getName() << " ";
+			for(c=0; c<8; c++)
+			{
+				if(8<=d[r][c] && d[r][c]<=13 && canGo[d[r][c]-8])
+				{
+					cout << party[d[r][c]-8].getName() << " (" << r << ", " << char(c+65) << ") ";
+				}
+			}
 		}
 		cout << endl;
-		for(int e=0; e<6; e++)
+		for(r=0; r<8; r++)
 		{
-			cout << enemies[e].getName() << " ";
+			for(c=0; c<8; c++)
+			{
+				if(2<=d[r][c] && d[r][c]<=7)
+				{
+					cout << enemies[d[r][c]-2].getName() << " (" << r << ", " << char(c+65) << ") ";
+				}
+			}
 		}
 		cout << endl;
 		cout << "Select a character by inputting their name." << endl;
@@ -378,23 +406,41 @@ void playerTurn()
 			turnOver = true;
 			break;
 		}
+		else
+		{
+			cout << "Please enter valid option." << endl;
+			pTurnOver = true;
+			turnOver = false;
+			break;
+		}
 		if(turnOver)
 			break;
 		while(!pTurnOver)
 		{
-			cout << party[choice2].getName() << endl;
 			cout << "1 Move" << endl;
 			cout << "2 Item" << endl;
 			cout << "3 View Info" << endl;
 			cout << "4 Go Back" << endl;
-			cin >> choice3;
+			cin >> choice3s;
+
+                        for( int boodles = 0; boodles < choice3s.size(); boodles++ )
+                        {
+                            if(( !(isdigit( choice3s[boodles] ) ) ))
+                            {
+                                cout << "I warned you about the strings bro." << endl;
+                                continue;
+                            }
+                        }
+
+                        choice3 = stoi( choice3s );
+
 			if(choice3==1)
 			{
 				//Move around board, if move into enemy, attack, if attacked, pTurnOver = true
 				while(numMoves>0 && moving)
 				{
 					cout << "Move character. " << numMoves << " moves left."<< endl;
-			        cout << "w (up)  a (left)  s (right)  d (down)  e (stop moving)" << endl;
+			        cout << "w (up)  a (left)  s (down)  d (right)  e (stop moving)" << endl;
 			        cin >> move_select;
 					if(move_select=='e')
 					{
@@ -403,19 +449,50 @@ void playerTurn()
 					}
 					else
 					{
+						printMap(d);
 						moving = move(d, party[choice2].getName(), move_select);
 						numMoves--;
 					}
 				}
+				if(!moving)
+				{	
+					pTurnOver = true;
+					turnUsed = true;
+					break;
+				}
 				cout << "1 Item" << endl;
 				cout << "2 End Character Turn" << endl;
-				cin >> choice4;
+				cin >> choice4s;
+
+                                for( int spinnies = 0; spinnies < choice4s.size(); spinnies++ )
+                                {
+                                     if(( !(isdigit(choice4s[spinnies]) ) ))
+                                     {
+                                          cout << "PICK A GOD AND PRAY!" << endl;
+                                          continue;
+                                      }
+                                }
+
+                                choice4 = stoi( choice4s );
+
 				if(choice4==1)
 				{
 					cout << "1 Upgrade Character" << endl;
 					cout << "2 Heal Character" << endl;
 					cout << "3 Go Back" << endl;
-					cin >> choice5;
+					cin >> choice5s;
+
+                                        for( int levin = 0; levin < choice5s.size(); levin++ )
+                                        {
+                                             if(( !(isdigit(choice5s[levin]) ) ))
+                                             {
+                                                 cout << "Now Im angry!" << endl;
+                                                 continue;
+                                             }
+                                        }
+
+                                        choice5 = stoi( choice5s );
+
 					if(choice5==1)
 					{
 						if(upgrades>0)
@@ -469,7 +546,19 @@ void playerTurn()
 				cout << "1 Upgrade Character" << endl;
 				cout << "2 Heal Character" << endl;
 				cout << "3 Go Back" << endl;
-				cin >> choice6;
+				cin >> choice6s;
+
+                                for( int validar = 0; validar < choice6s.size(); validar++ )
+                                {
+                                     if(( !(isdigit(choice6s[validar]) ) ))
+                                     {
+                                         cout << "Now youve angered me." << endl;
+                                         continue;
+                                     } 
+                                }
+   
+                                choice6 = stoi(choice6s);
+
 				if(choice6==1)
 				{
 					if(upgrades>0)
@@ -786,7 +875,6 @@ void erase(int d[][COLS], string playerSelect, char move) // for move, and death
 		}
     cout << col << " " << row << endl;
     d[row][col] = 0;
-    printMap(d);
     cout << endl;
 }
 
@@ -840,10 +928,10 @@ bool move(int d[][COLS], string playerSelect, char move)
       case 'a':
         col = col - 1;
         break;
-      case 's':
+      case 'd':
         col = col + 1;
         break;
-      case 'd':
+      case 's':
         row = row + 1;
         break;
     }
@@ -855,24 +943,32 @@ bool move(int d[][COLS], string playerSelect, char move)
 */
 	if(d[row][col] >= 2 && d[row][col] <=7)
 	{
-		party[member-8].fight(enemies[d[row][col]-2]);	
-		if(enemies[d[row][col]-2].isDead())
+		if(party[member-8].getClass().compare("Cleric") && party[member-8].getClass().compare("Troubadour"))
 		{
-			erase(d, playerSelect, move);
-			if(member==8)
-				d[row][col] = 8;
-			else if(member==9)
-				d[row][col] = 9;
-			else if(member==10)
-				d[row][col] = 10;
-			else if(member==11)
-				d[row][col] = 11;
-			else if(member==12)
-				d[row][col] = 12;
-			else if(member==13)
-				d[row][col] = 13;
+			fight(member, row, col);
+			if(enemies[d[row][col]-2].isDead())
+			{
+				erase(d, playerSelect, move);
+				if(member==8)
+					d[row][col] = 8;
+				else if(member==9)
+					d[row][col] = 9;
+				else if(member==10)
+					d[row][col] = 10;
+				else if(member==11)
+					d[row][col] = 11;
+				else if(member==12)
+					d[row][col] = 12;
+				else if(member==13)
+					d[row][col] = 13;
+			}
+			fought = true;
 		}
-		fought = true;
+		else
+		{
+			party[d[row][col]-8].healDamage(party[member-8].getHeal());
+			cout << party[member-8].getName() << " healed " << party[d[row][col]-8].getName() << endl;
+		}
 	}
 	if(d[row][col]==0)
 	{
@@ -890,6 +986,87 @@ bool move(int d[][COLS], string playerSelect, char move)
 		else if(member==13)
 			d[row][col] = 13;
 	}
-	printMap(d);
 	return !fought;
+}
+
+void fight(int member, int row, int col)
+{
+	srand(time(NULL));
+	int critRoll = rand()%100+1;
+	int attackRoll, avoidRoll;
+	if(critRoll <= party[member-8].getCrit())
+	{
+		enemies[d[row][col]-2].takeDamage(party[member-8].getCritDamage());
+		cout << party[member-8].getName() << " crits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getCritDamage() << " damage!" << endl;
+		if(enemies[d[row][col]-2].getHP()<=0)
+			enemies[d[row][col]-2].dies();
+	}
+	else
+	{
+		attackRoll = rand()%100+1;
+		if(attackRoll <= party[member-8].getAccuracy())
+		{
+			avoidRoll = rand()%100+1;
+			if(avoidRoll <= enemies[d[row][col]-2].getAvoid())
+			{
+				cout << enemies[d[row][col]-2].getName() << " avoided the attack." << endl;
+			}
+			else
+			{
+				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
+				cout << party[member-8].getName() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
+				if(enemies[d[row][col]-2].getHP()<=0)
+					enemies[d[row][col]-2].dies();
+			}
+		}
+		else
+		{
+			cout << party[member-8].getName() << " misses " << enemies[d[row][col]-2].getName() << "." << endl;
+		}
+
+		if(enemies[d[row][col]-2].getClass().compare("Cleric") && enemies[d[row][col]-2].getClass().compare("Troubadour"))
+		{
+			attackRoll = rand()%100+1;
+			if(attackRoll <= enemies[d[row][col]-2].getAccuracy())
+			{
+				avoidRoll = rand()%100+1;
+				if(avoidRoll <= party[member-8].getAvoid())
+				{
+					cout << party[member-8].getName() << " avoided the attack." << endl;
+				}
+				else
+				{
+					party[member-8].takeDamage(enemies[d[row][col]-2].getDamage());
+					cout << enemies[d[row][col]-2].getName() << " hits " << party[member-8].getName() << " and deals " << enemies[d[row][col]-2].getDamage() << " damage!" << endl;
+					if(party[member-8].getHP()<=0)
+						party[member-8].dies();
+				}
+			}
+			else
+			{
+				cout << enemies[d[row][col]-2].getName() << " misses " << party[member-8].getName() << "." << endl;
+			}
+		}
+
+		attackRoll = rand()%100+1;
+		if(attackRoll <= party[member-8].getAccuracy())
+		{
+			avoidRoll = rand()%100+1;
+			if(avoidRoll <= enemies[d[row][col]-2].getAvoid())
+			{
+				cout << enemies[d[row][col]-2].getName() << " avoided the attack." << endl;
+			}
+			else
+			{
+				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
+				cout << party[member-8].getDamage() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
+				if(enemies[d[row][col]-2].getHP()<=0)
+					enemies[d[row][col]-2].dies();
+			}
+		}
+		else
+		{
+			cout << party[member-8].getName() << " misses " << enemies[d[row][col]-2].getName() << "." << endl;
+		}
+	}
 }

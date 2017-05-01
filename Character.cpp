@@ -48,40 +48,41 @@ int Character::getHP()
 int Character::getMaxHP()
 {return stats["Max HP"];}
 
+//Getter for Heal points
+int Character::getHeal()
+{return stats["Heal"];}
+
+//Getter for Avoid rate
+int Character::getAvoid()
+{return stats["Avoid"];}
+
+//Getter for Accuracty rate
+int Character::getAccuracy()
+{return stats["Accuracy"];}
+
+//Getter for Damage value
+int Character::getDamage()
+{return stats["Damage"];}
+
+//Getter for Crit rate
+int Character::getCrit()
+{return stats["Crit"];}
+
+int Character::getCritDamage()
+{return stats["Crit Damage"];}
+
 //Virtual function for upgrading character class
 void Character::upgradeClass()
 {Class = "Upgraded Class";}
 
-//Function for when one character attacks another
-void Character::fight(Character enemy)
-{
-	srand(time(NULL));
-	int critRoll = rand();
-	if(critRoll <= stats["Crit"])
-	{
-		enemy.takeDamage(stats["Crit Damage"]);
-		cout << Name << " crits " << enemy.getName() << " and deals " << stats["Crit Damage"] << " damage!" << endl;
-	}
-	else
-	{
-		int attackRoll = rand();
-		if(attackRoll <= stats["Accuracy"])
-		{
-			enemy.takeDamage(stats["Damage"]);
-			cout << Name << " hits " << enemy.getName() << " and deals " << stats["Damage"] << " damage!" << endl;
-			if(enemy.stats["HP"]<=0)
-				enemy.dies();
-		}
-		else
-		{
-			cout << Name << " misses " << enemy.getName() << "." << endl;
-		}
-	}
-}
-
 //Function for subtracting damage dealt
 void Character::takeDamage(int d)
-{stats["HP"] = stats["HP"] - d;}
+{
+	if(stats["HP"] - d > 0)
+		stats["HP"] = stats["HP"] - d;
+	else
+		stats["HP"] = 0;
+}
 
 //Function for adding damage healed
 void Character::healDamage(int d)
@@ -97,7 +98,6 @@ void Character::dies()
 {
 	dead = true;
 	cout << Name << " has fallen!" << endl;
-	//DEATH QUOTE???
 }
 
 //Virtual function for displaying a character's information
@@ -115,19 +115,3 @@ void Character::displayInfo()
 	cout << "Crit Damage:    " << stats["Crit Damage"] << endl;
 	cout << "Recorvery Rate: " << stats["Heal"] << endl;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

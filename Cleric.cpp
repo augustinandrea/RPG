@@ -30,3 +30,6 @@ void Cleric::displayInfo()
 	cout << "Avoid: " << stats["Avoid"] << endl;
 	cout << "Heal Points: " << stats["Heal"] << endl;
 }
+
+int Cleric::getHeal()
+{return stats["Heal"];}
