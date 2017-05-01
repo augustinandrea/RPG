@@ -190,12 +190,12 @@ void gameSetup()
 		}
                 else if(( reUse ))
                 {
-                    cout << "Party member already chosen." << endl;
+                    cout << "Party member already chosen." << endl << endl;
                     continue;
                 }
                 else if(( !exists ))
                 {
-                     cout << "Please enter a valid name." << endl;
+                     cout << "Please enter a valid name." << endl << endl;
                      continue;
                 }
 
@@ -274,7 +274,51 @@ void playerTurn()
 		cout << "Select an enemy number to view their information." << endl;
 		cout << "Select q to end your turn." << endl;
 		cin >> choice1;
-		if(choice1.compare(party[0].getName())==0 && canGo[0])
+
+                bool exists2 = false;
+
+                for( int blarg = 0; blarg < 6; blarg++ )
+                {
+                    if(( choice1.compare(party[blarg].getName()) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                    else if(( choice1.compare( "1" ) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                    else if(( choice1.compare( "2" ) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                    else if(( choice1.compare( "3" ) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                    else if(( choice1.compare( "4" ) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                    else if(( choice1.compare( "5" ) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                    else if(( choice1.compare( "6" ) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                    else if(( choice1.compare( "q" ) == 0 ))
+                    {
+                        exists2 = true;
+                    }
+                }
+
+                if(( !exists2 ))
+                {
+                    cout << "Please enter a valid command." << endl << endl;
+                    continue;
+                }
+		else if(choice1.compare(party[0].getName())==0 && canGo[0])
 		{
 			choice2 = 0;
 		}
