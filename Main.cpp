@@ -36,7 +36,7 @@ void enemyInitialization();
 char int_to_terrain(int i);
 void printMap(int d[][COLS]);
 void erase(int d[][COLS], string playerSelect, char move);
-void move(int d[][COLS], string playerSelect, char move);
+bool move(int d[][COLS], string playerSelect, char move);
 
 Character characters[32];
 Character enemies[6];
@@ -394,8 +394,8 @@ void playerTurn()
 				while(numMoves>0 && moving)
 				{
 					cout << "Move character. " << numMoves << " moves left."<< endl;
-	        cout << "w (up)  a (left)  s (right)  d (down)  e (stop moving)" << endl;
-	        cin >> move_select;
+			        cout << "w (up)  a (left)  s (right)  d (down)  e (stop moving)" << endl;
+			        cin >> move_select;
 					if(move_select=='e')
 					{
 						moving = false;
@@ -403,7 +403,7 @@ void playerTurn()
 					}
 					else
 					{
-						move(d, party[choice2].getName(), move_select);
+						moving = move(d, party[choice2].getName(), move_select);
 						numMoves--;
 					}
 				}
@@ -790,37 +790,37 @@ void erase(int d[][COLS], string playerSelect, char move) // for move, and death
     cout << endl;
 }
 
-void move(int d[][COLS], string playerSelect, char move)
+bool move(int d[][COLS], string playerSelect, char move)
 {
     int row, col, count;
-		int member;
+	int member;
+	bool fought = false;
 
-		if(party[0].getName().compare(playerSelect)==0)
-			member = 8;
-		else if(party[1].getName().compare(playerSelect)==0)
-			member = 9;
-		else if(party[2].getName().compare(playerSelect)==0)
-			member = 10;
-		else if(party[3].getName().compare(playerSelect)==0)
-			member = 11;
-		else if(party[4].getName().compare(playerSelect)==0)
-			member = 12;
-		else if(party[5].getName().compare(playerSelect)==0)
-			member = 13;
+	if(party[0].getName().compare(playerSelect)==0)
+		member = 8;
+	else if(party[1].getName().compare(playerSelect)==0)
+		member = 9;
+	else if(party[2].getName().compare(playerSelect)==0)
+		member = 10;
+	else if(party[3].getName().compare(playerSelect)==0)
+		member = 11;
+	else if(party[4].getName().compare(playerSelect)==0)
+		member = 12;
+	else if(party[5].getName().compare(playerSelect)==0)
+		member = 13;
 
-                erase(d, playerSelect, move);
-
-		for(int i = 0; i < ROWS; i++)
+	for(int i = 0; i < ROWS; i++)
+	{
+		for(int j = 0; j < COLS; j++)
 		{
-			for(int j = 0; j < COLS; j++)
+			if(member==d[i][j])
 			{
-				if(member==d[i][j])
-				{
-					col = j;
-					row = i;
-				}
+				col = j;
+				row = i;
 			}
 		}
+	}
+
     /* clear board for animation */
     // Look at system library
     //
@@ -831,7 +831,6 @@ void move(int d[][COLS], string playerSelect, char move)
             That'll be an if condition to decide which one
         w = row + 1; and etc.
     */
-    bool legal = true;
 
     switch(move)
     {
@@ -854,33 +853,43 @@ void move(int d[][COLS], string playerSelect, char move)
       continue;
     }
 */
-		if(d[row][col] >= 2 && d[row][col] <=7)
+	if(d[row][col] >= 2 && d[row][col] <=7)
+	{
+		party[member-8].fight(enemies[d[row][col]-2]);	
+		if(enemies[d[row][col]-2].isDead())
 		{
-			cout << d[row][col] << endl;
-			party[d[row][col]-8].fight(enemies[d[row][col]-2]);
-			cout << d[row][col] << endl;
-			if(!enemies[d[row][col]-2].isDead())
-			{
-				switch(move)
-		    {
-		    	case 'w':
-		       	row = row + 1;
-		         break;
-		      case 'a':
-		        col = col + 1;
-		        break;
-		      case 's':
-	         	col = col - 1;
-			      break;
-		      case 'd':
-		        row = row - 1;
-		        break;
-		   	}
-			}
+			erase(d, playerSelect, move);
+			if(member==8)
+				d[row][col] = 8;
+			else if(member==9)
+				d[row][col] = 9;
+			else if(member==10)
+				d[row][col] = 10;
+			else if(member==11)
+				d[row][col] = 11;
+			else if(member==12)
+				d[row][col] = 12;
+			else if(member==13)
+				d[row][col] = 13;
 		}
-
-
-		d[row][col] = 3;
-		printMap(d);
-
+		fought = true;
+	}
+	if(d[row][col]==0)
+	{
+		erase(d, playerSelect, move);
+		if(member==8)
+			d[row][col] = 8;
+		else if(member==9)
+			d[row][col] = 9;
+		else if(member==10)
+			d[row][col] = 10;
+		else if(member==11)
+			d[row][col] = 11;
+		else if(member==12)
+			d[row][col] = 12;
+		else if(member==13)
+			d[row][col] = 13;
+	}
+	printMap(d);
+	return !fought;
 }
