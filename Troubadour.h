@@ -16,6 +16,7 @@ class Troubadour : public Character
 		Troubadour(string="Name", string="Troudabour", bool=false, int=0, int=0, int=0, int=0, int=0, int=0, int=0, int=0);
 		virtual void upgradeClass();
 		virtual void displayInfo();
+		int getHeal();
 	private:
 		string Name;
 		string Class;
