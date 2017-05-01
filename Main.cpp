@@ -159,6 +159,7 @@ void gameSetup()
 		cout << "Select 1 to view your current party" << endl;
 
                 bool reUse = false;
+                bool exists = false;
 
 		cin >> choice1;
 
@@ -168,6 +169,13 @@ void gameSetup()
                      {
                           reUse = true;
                      } 
+                }
+                for( int kNeedThis = 0; kNeedThis < 32; kNeedThis++ )
+                {
+                     if(( choice1.compare(characters[kNeedThis].getName()) == 0 ))
+                     {
+                          exists = true;
+                     }
                 }
 
 		if(choice1.compare("1")==0)
@@ -185,6 +193,12 @@ void gameSetup()
                     cout << "Party member already chosen." << endl;
                     continue;
                 }
+                else if(( !exists ))
+                {
+                     cout << "Please enter a valid name." << endl;
+                     continue;
+                }
+
 		while(!back)
 		{
 			cout << "1 View character information" << endl;
