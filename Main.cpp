@@ -794,7 +794,6 @@ void move(int d[][COLS], string playerSelect, char move)
 {
     int row, col, count;
 		int member;
-    erase(d, playerSelect, move);
 
 		if(party[0].getName().compare(playerSelect)==0)
 			member = 8;
@@ -808,6 +807,8 @@ void move(int d[][COLS], string playerSelect, char move)
 			member = 12;
 		else if(party[5].getName().compare(playerSelect)==0)
 			member = 13;
+
+                erase(d, playerSelect, move);
 
 		for(int i = 0; i < ROWS; i++)
 		{
