@@ -1,4 +1,5 @@
 
+
 void enemyTurn() {
   string Class; // the class 
   int hp;
@@ -20,23 +21,28 @@ void enemyTurn() {
 	
       }
       else if(Character.Cleric > Character.Troubadour) {  // attack the Troubadour
+      
       }
       else{ // randomly attack either one of them
+      
       }
       
     }
 
-    else if(Archer <= distance && (Cleric || Troubadour > distance) ){
-      // attack the archer
-    }
-    else if(playerCharacter == stats["HP"] < playerCharacter == stats["Max HP"] && (Cleric || Troubadour > 3) && Archer > distance){
-      // attack the character
-    }
-    
-    else if(playerCharacter <= 3 && (playerCharacter.stats["HP"]) == (playerCharacter.stats["Max HP"]) && (Cleric || Troubadour)> 3 && Archer > distance){
-      // attack the character
+    else if(playerCharacter <= 3 && (Cleric || Troubadour) > 3){   // attack the character that is closest
+      
     }
 
+    else if(playerCharacter1 == distance && playerCharacter2 == distance){ // if two characters are equally close
+      
+      if( (playerCharacter1.stats["HP"]) < (playerCharacter2.stats["HP"]) ){ //attack character with lowest HP
+	  // attack the character
+      }
+      else if( (playerCharacter1.stats["HP"]) == (playerCharacter2.stats["HP"]) ){ // attack at random
+	
+      }
+    }
+    
     else{
       // enemy moves forward
     }
