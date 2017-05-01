@@ -48,6 +48,22 @@ int Character::getHP()
 int Character::getMaxHP()
 {return stats["Max HP"];}
 
+//Getter for Heal points
+int Character::getHeal()
+{return stats["Heal"];}
+
+//Getter for Avoid rate
+int Character::getAvoid()
+{return stats["Avoid"];}
+
+//Getter for Accuracty rate
+int Character::getAccuracy()
+{return stats["Accuracy"];}
+
+//Getter for Damage value
+int Character::getDamage()
+{return stats["Damage"];}
+
 //Virtual function for upgrading character class
 void Character::upgradeClass()
 {Class = "Upgraded Class";}
@@ -56,7 +72,8 @@ void Character::upgradeClass()
 void Character::fight(Character enemy)
 {
 	srand(time(NULL));
-	int critRoll = rand();
+	int critRoll = rand()%100+1;
+	int attackRoll, avoidRoll;
 	if(critRoll <= stats["Crit"])
 	{
 		enemy.takeDamage(stats["Crit Damage"]);
@@ -64,24 +81,78 @@ void Character::fight(Character enemy)
 	}
 	else
 	{
-		int attackRoll = rand();
+		attackRoll = rand()%100+1;
 		if(attackRoll <= stats["Accuracy"])
 		{
-			enemy.takeDamage(stats["Damage"]);
-			cout << Name << " hits " << enemy.getName() << " and deals " << stats["Damage"] << " damage!" << endl;
-			if(enemy.stats["HP"]<=0)
-				enemy.dies();
+			avoidRoll = rand()%100+1;
+			if(avoidRoll <= enemy.getAvoid())
+			{
+				cout << enemy.getName() << " avoided the attack." << endl;
+			}
+			else
+			{
+				enemy.takeDamage(stats["Damage"]);
+				cout << Name << " hits " << enemy.getName() << " and deals " << stats["Damage"] << " damage!" << endl;
+				if(enemy.getHP()<=0)
+					enemy.dies();
+			}
+		}
+		else
+		{
+			cout << Name << " misses " << enemy.getName() << "." << endl;
+		}
+
+		attackRoll = rand()%100+1;
+		if(attackRoll <= enemy.getAccuracy())
+		{
+			avoidRoll = rand()%100+1;
+			if(avoidRoll <= stats["Avoid"])
+			{
+				cout << Name << " avoided the attack." << endl;
+			}
+			else
+			{
+				stats["Damage"] = stats["Damage"] - enemy.getDamage();
+				cout << enemy.getName() << " hits " << Name << " and deals " << stats["Damage"] << " damage!" << endl;
+				if(stats["HP"]<=0)
+					dies();
+			}
+		}
+		else
+		{
+			cout << enemy.getName() << " misses " << Name << "." << endl;
+		}
+
+		attackRoll = rand()%100+1;
+		if(attackRoll <= stats["Accuracy"])
+		{
+			avoidRoll = rand()%100+1;
+			if(avoidRoll <= enemy.getAvoid())
+			{
+				cout << enemy.getName() << " avoided the attack." << endl;
+			}
+			else
+			{
+				enemy.takeDamage(stats["Damage"]);
+				cout << Name << " hits " << enemy.getName() << " and deals " << stats["Damage"] << " damage!" << endl;
+				if(enemy.getHP()<=0)
+					enemy.dies();
+			}
 		}
 		else
 		{
 			cout << Name << " misses " << enemy.getName() << "." << endl;
 		}
 	}
+	cout << "Enemy HP in fight(): " << enemy.getHP() << endl;
 }
 
 //Function for subtracting damage dealt
 void Character::takeDamage(int d)
-{stats["HP"] = stats["HP"] - d;}
+{cout << "Old HP: " << stats["HP"] << endl;
+	cout << "TOOK DAMAGE" << endl;
+	stats["HP"] = stats["HP"] - d;
+cout << "New HP: " << stats["HP"] << endl;}
 
 //Function for adding damage healed
 void Character::healDamage(int d)
@@ -97,7 +168,6 @@ void Character::dies()
 {
 	dead = true;
 	cout << Name << " has fallen!" << endl;
-	//DEATH QUOTE???
 }
 
 //Virtual function for displaying a character's information
@@ -115,19 +185,3 @@ void Character::displayInfo()
 	cout << "Crit Damage:    " << stats["Crit Damage"] << endl;
 	cout << "Recorvery Rate: " << stats["Heal"] << endl;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
