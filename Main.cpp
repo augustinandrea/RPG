@@ -37,6 +37,7 @@ char int_to_terrain(int i);
 void printMap(int d[][COLS]);
 void erase(int d[][COLS], string playerSelect, char move);
 bool move(int d[][COLS], string playerSelect, char move);
+void fight(int, int, int);
 
 Character characters[32];
 Character enemies[6];
@@ -438,7 +439,7 @@ void playerTurn()
 				while(numMoves>0 && moving)
 				{
 					cout << "Move character. " << numMoves << " moves left."<< endl;
-			        cout << "w (up)  a (left)  s (right)  d (down)  e (stop moving)" << endl;
+			        cout << "w (up)  a (left)  s (down)  d (right)  e (stop moving)" << endl;
 			        cin >> move_select;
 					if(move_select=='e')
 					{
@@ -448,9 +449,14 @@ void playerTurn()
 					else
 					{
 						moving = move(d, party[choice2].getName(), move_select);
-						if(moving)
-							numMoves--;
+						numMoves--;
 					}
+				}
+				if(!moving)
+				{	
+					pTurnOver = true;
+					turnUsed = true;
+					break;
 				}
 				cout << "1 Item" << endl;
 				cout << "2 End Character Turn" << endl;
@@ -921,10 +927,10 @@ bool move(int d[][COLS], string playerSelect, char move)
       case 'a':
         col = col - 1;
         break;
-      case 's':
+      case 'd':
         col = col + 1;
         break;
-      case 'd':
+      case 's':
         row = row + 1;
         break;
     }
@@ -938,8 +944,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 	{
 		if(party[member-8].getClass().compare("Cleric") && party[member-8].getClass().compare("Troubadour"))
 		{
-			party[member-8].fight(enemies[d[row][col]-2]);
-			cout << "Enemy HP: " << enemies[d[row][col]-2].getHP() << endl;	
+			fight(member, row, col);
 			if(enemies[d[row][col]-2].isDead())
 			{
 				erase(d, playerSelect, move);
@@ -982,4 +987,86 @@ bool move(int d[][COLS], string playerSelect, char move)
 	}
 	printMap(d);
 	return !fought;
+}
+
+void fight(int member, int row, int col)
+{
+	srand(time(NULL));
+	int critRoll = rand()%100+1;
+	int attackRoll, avoidRoll;
+	if(critRoll <= party[member-8].getCrit())
+	{
+		enemies[d[row][col]-2].takeDamage(party[member-8].getCritDamage());
+		cout << party[member-8].getName() << " crits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getCritDamage() << " damage!" << endl;
+		if(enemies[d[row][col]-2].getHP()<=0)
+			enemies[d[row][col]-2].dies();
+	}
+	else
+	{
+		attackRoll = rand()%100+1;
+		if(attackRoll <= party[member-8].getAccuracy())
+		{
+			avoidRoll = rand()%100+1;
+			if(avoidRoll <= enemies[d[row][col]-2].getAvoid())
+			{
+				cout << enemies[d[row][col]-2].getName() << " avoided the attack." << endl;
+			}
+			else
+			{
+				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
+				cout << party[member-8].getName() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
+				if(enemies[d[row][col]-2].getHP()<=0)
+					enemies[d[row][col]-2].dies();
+			}
+		}
+		else
+		{
+			cout << party[member-8].getName() << " misses " << enemies[d[row][col]-2].getName() << "." << endl;
+		}
+
+		if(enemies[d[row][col]-2].getClass().compare("Cleric") && enemies[d[row][col]-2].getClass().compare("Troubadour"))
+		{
+			attackRoll = rand()%100+1;
+			if(attackRoll <= enemies[d[row][col]-2].getAccuracy())
+			{
+				avoidRoll = rand()%100+1;
+				if(avoidRoll <= party[member-8].getAvoid())
+				{
+					cout << party[member-8].getName() << " avoided the attack." << endl;
+				}
+				else
+				{
+					party[member-8].takeDamage(enemies[d[row][col]-2].getDamage());
+					cout << enemies[d[row][col]-2].getName() << " hits " << party[member-8].getName() << " and deals " << enemies[d[row][col]-2].getDamage() << " damage!" << endl;
+					if(party[member-8].getHP()<=0)
+						party[member-8].dies();
+				}
+			}
+			else
+			{
+				cout << enemies[d[row][col]-2].getName() << " misses " << party[member-8].getName() << "." << endl;
+			}
+		}
+
+		attackRoll = rand()%100+1;
+		if(attackRoll <= party[member-8].getAccuracy())
+		{
+			avoidRoll = rand()%100+1;
+			if(avoidRoll <= enemies[d[row][col]-2].getAvoid())
+			{
+				cout << enemies[d[row][col]-2].getName() << " avoided the attack." << endl;
+			}
+			else
+			{
+				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
+				cout << party[member-8].getDamage() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
+				if(enemies[d[row][col]-2].getHP()<=0)
+					enemies[d[row][col]-2].dies();
+			}
+		}
+		else
+		{
+			cout << party[member-8].getName() << " misses " << enemies[d[row][col]-2].getName() << "." << endl;
+		}
+	}
 }
