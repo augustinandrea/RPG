@@ -5,16 +5,16 @@ currently doing. Writing this so that input from group members can be made in
 order to further refine the user inputs.
 
      1)
-     The program starts. The user inputs characters. This would run the first 
+     The program starts. The user inputs characters. This would run the first
 set of code in the file I have written.
      2)
      The character selection ends and the program moves on to the bulk of the
-gameplay. Here, this would run the second block of code I have written, the 
+gameplay. Here, this would run the second block of code I have written, the
 start of the players turn. Players would choose which character to interact with
 . this owuld move right into:
      3)
      The character selected takes action. This would likely use the third block
-of code that I have written where the user selects an action. From here, the 
+of code that I have written where the user selects an action. From here, the
 character can no longer act for the turn and the user selects another character
 to act with, repeating phase 2.
      4)
@@ -25,7 +25,18 @@ starting phase 2 again.
     I'm not really sure what more user prompting there is to do. As such, I am
 not entirely sure if there is more stuff that I should be doing with my code.
 Really relying on group input here as to what I need to continue to do and what
-I need to fix. Putting everything together is also a bit of an issue, as right  
-now, I just have several blocks of code. None of them really do anything on 
+I need to fix. Putting everything together is also a bit of an issue, as right
+now, I just have several blocks of code. None of them really do anything on
 their own. But they would be put together to do stuff with other group members'
 stuff. So I'm not sure what else to do before the next meeting.
+
+Problems:
+Board bounds (in between 0 and 8 all around)
+When you move, doesn't show move made until next action is taken
+Enemy AI not implemented yet
+Make Ps into first letters of character names.
+If a character tries to move into another character, collision issues.
+Erase coordinates printed out by cout
+If you upgrade, and you're out of upgrades, you get another move
+(?)Win condition happens after another action, then win is met.
+Not really a big problem, passable, but would like to ideally change.
