@@ -27,6 +27,7 @@ using namespace std;
 #define ROWS 8
 #define COLS 8
 
+void boardInitialization();
 void gameSetup();
 void playerTurn();
 void checkParty();
@@ -48,20 +49,21 @@ int upgrades = 2;
 int heals = 5;
 
 int d[ROWS][COLS]={
-	{0,0,0,0,0,2,0,0},
-	{3,0,0,4,5,0,0,0},
-	{0,0,6,0,0,0,7,0},
-	{1,1,0,0,0,1,0,0},
-	{0,0,0,0,0,0,0,1},
-	{8,0,0,0,0,0,0,0},
-	{0,9,0,10,0,11,0,12},
-  {0,0,13,0,0,0,0,0}};
+	{0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0},
+  	{0,0,0,0,0,0,0,0}};
 
 int main()
 {
+	boardInitialization();
 	characterInitialization(); //Creates all of the game's characters
 	gameSetup(); //Prompts user to create party
-  enemyInitialization(); //Creates all of the enemies
+  	enemyInitialization(); //Creates all of the enemies
 
 	cout << endl << "GAME START" << endl;
 	bool end = false;
@@ -96,6 +98,44 @@ int main()
 			break;
 		}
     }
+}
+
+void boardInitialization()
+{
+	int i;
+	srand(time(NULL));
+	int enemyRandomRow[6];
+	int enemyRandomCol[6];
+	int playerRandomRow[6];
+	int playerRandomCol[6];
+	for(i=0; i<6; i++)
+	{
+		enemyRandomRow[i] = rand()%3+0;
+		enemyRandomCol[i] = rand()%7+0;
+		playerRandomRow[i] = rand()%3+4;
+		playerRandomCol[i] = rand()%7+0;
+	}
+	for(i=0; i<6; i++)
+	{
+		for(int j=i+1; j<6; j++)
+		{
+			if(enemyRandomRow[i]==enemyRandomRow[j] && enemyRandomCol[i]==enemyRandomCol[j])
+			{
+				enemyRandomRow[j] = rand()%3+0;
+				enemyRandomCol[j] = rand()%7+0;
+			}
+			if(playerRandomRow[i]==playerRandomRow[j] && playerRandomCol[i]==playerRandomCol[j])
+			{
+				playerRandomRow[j] = rand()%3+0;
+				playerRandomCol[j] = rand()%7+0;
+			}
+		}
+	}
+	for(i=0; i<6; i++)
+	{
+		d[enemyRandomRow[i]][enemyRandomCol[i]] = i+2;
+		d[playerRandomRow[i]][playerRandomCol[i]] = i+8;
+	}
 }
 
 void gameSetup()
@@ -449,9 +489,9 @@ void playerTurn()
 					}
 					else
 					{
-						printMap(d);
 						moving = move(d, party[choice2].getName(), move_select);
 						numMoves--;
+						printMap(d);
 					}
 				}
 				if(!moving)
