@@ -881,9 +881,10 @@ char int_to_terrain(int i)
         else if(i >= 2 && i <=7){
 					return 'E';
 				}
-        else{
-					return 'P';
-				}
+        else
+        {
+			return party[i-8].getName().at(0);	
+		}
     return ('*');
 }
 
@@ -987,21 +988,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 		{
 			fight(member, row, col);
 			if(enemies[d[row][col]-2].isDead())
-			{
 				erase(d, playerSelect, move);
-				if(member==8)
-					d[row][col] = 8;
-				else if(member==9)
-					d[row][col] = 9;
-				else if(member==10)
-					d[row][col] = 10;
-				else if(member==11)
-					d[row][col] = 11;
-				else if(member==12)
-					d[row][col] = 12;
-				else if(member==13)
-					d[row][col] = 13;
-			}
 			fought = true;
 		}
 		else
@@ -1099,7 +1086,7 @@ void fight(int member, int row, int col)
 			else
 			{
 				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
-				cout << party[member-8].getDamage() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
+				cout << party[member-8].getName() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
 				if(enemies[d[row][col]-2].getHP()<=0)
 					enemies[d[row][col]-2].dies();
 			}
