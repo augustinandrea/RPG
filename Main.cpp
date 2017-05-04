@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <time.h>
+#include <math.h>
 
 using namespace std;
 
@@ -36,9 +37,12 @@ void characterInitialization();
 void enemyInitialization();
 char int_to_terrain(int i);
 void printMap(int d[][COLS]);
-void erase(int d[][COLS], string playerSelect, char move);
+void erase(int d[][COLS], string playerSelect);
 bool move(int d[][COLS], string playerSelect, char move);
 void fight(int, int, int);
+double dForm(int enemy, int character);
+void emove(int enemy, int character, bool fight);
+void efight(Character enemy, Character character);
 
 Character characters[32];
 Character enemies[6];
@@ -703,7 +707,234 @@ void checkParty()
 
 void enemyTurn()
 {
-	cout << "ENEMY TURN" << endl;
+  int lowestHP = 50;
+  int charWithLowest = -1;
+  int smallestDistance = 8;
+  int charWithSmallest = 0;
+  int distance, enemyX, enemyY, characterX, characterY;
+  bool pathClear = true; //CHANGE THIS LATER
+  cout << "ENEMY TURN" << endl;
+    
+  for(int e=0; e<6; e++)
+  {
+  	cout << enemies[e].getName() << "'s turn" << endl;
+    for(int p=0; p<6; p++)
+    {
+      if(dForm(e+2, p+8) < 3.0)
+      {
+      	for(int r=0; r<8; r++)
+		{
+		    for(int c=0; c<8; c++)
+		    {
+	  			if(d[r][c]==e+2)
+		      	{
+		        	enemyX = r;
+		    	    enemyY = c;
+		      	}
+		      	else if(d[r][c]==p+8)
+		      	{
+		        	characterX = r;
+		        	characterY = c;
+		      	}
+		   	}
+		}
+		//FIGURE OUT HOW TO PREVENT PEOPLE FROM ATTACKING THROUGH EACH OTHER
+      	if(pathClear)
+      	{
+	        if(party[p].getClass().compare("Cleric") || party[p].getClass().compare("Troubadour"))
+	        {
+	          emove(e+2, p+8, true);
+	          efight(enemies[e], party[p]);
+	          p = 6;
+	        }
+	        else if(party[p].getHP() < lowestHP)
+	        {
+	          lowestHP = party[p].getHP();
+	          charWithLowest = p;
+	        }
+	    }
+      }
+    }
+    if(charWithLowest!=-1)
+    {
+      emove(e+2, charWithLowest+8, true);
+      efight(enemies[e], party[charWithLowest]);
+    }
+    else
+    {
+      for(int r=0; r<8; r++)
+      {
+        for(int c=0; c<8; c++)
+        {
+          distance = dForm(e+2, d[r][c]-8);
+          if(8<=d[r][c]<=13 && distance<smallestDistance)
+          {
+            smallestDistance = distance;
+            charWithSmallest = d[r][c] - 8;
+          }
+        }
+      }
+      emove(e+2, charWithSmallest+8, false);
+    }
+    printMap(d);
+  }
+  cout << "ENEMY TURN OVER" << endl;
+}
+
+double dForm(int enemy, int character)
+{
+  int enemyX, enemyY, characterX, characterY;
+  for(int r=0; r<8; r++)
+  {
+    for(int c=0; c<8; c++)
+    {
+      if(d[r][c]==enemy)
+      {
+        enemyX = r;
+        enemyY = c;
+      }
+      else if(d[r][c]==character)
+      {
+        characterX = r;
+        characterY = c;
+      }
+    }
+  }
+  return sqrt(pow((enemyX-characterX),2) + pow((enemyY-characterY),2));
+}
+
+void emove(int enemy, int character, bool fight)
+{
+  Character enemyChar;
+  int enemyX, enemyY, characterX, characterY, moveX, moveY;
+  for(int r=0; r<8; r++)
+  {
+    for(int c=0; c<8; c++)
+    {
+      if(d[r][c]==enemy)
+      {
+        enemyX = r;
+        enemyY = c;
+      }
+      else if(d[r][c]==character)
+      {
+        characterX = r;
+        characterY = c;
+      }
+    }
+  }
+  moveX = enemyX - characterX;
+  moveY = enemyY - characterY;
+  cout << "IN MOVE FUNCTION" << endl;
+  if(moveX>3)
+    moveX = 3;
+  if(moveX<-3)
+    moveX = -3;
+  if(moveY>3)
+    moveY = 3;
+  if(moveY<-3)
+    moveY = -3;
+  if(d[enemyX-moveX][enemyY-moveY]==0)
+  {
+    d[enemyX-moveX][enemyY-moveY]=enemy;
+  	erase(d, enemies[enemy-2].getName());
+  }
+  if(fight)
+  {
+  	if(moveX>0)
+  		characterX++;
+  	else if(moveY>0)
+  		characterY--;
+  	if(moveX<0)
+  		characterX--;
+  	else if(moveY<0)
+  		characterY++;
+  	cout << characterX << " x " << characterY << endl;
+  	d[characterX][characterY]=enemy;
+  	erase(d, enemies[enemy-2].getName());
+  }
+}
+
+void efight(Character enemy, Character character)
+{
+  srand(time(NULL));
+  int critRoll = rand()%100+1;
+  int attackRoll, avoidRoll;
+  if(critRoll <= enemy.getCrit())
+  {
+    character.takeDamage(enemy.getCritDamage());
+    cout << enemy.getName() << " crits " << character.getName() << " and deals " << enemy.getCritDamage() << " damage!" << endl;
+    if(character.getHP()<=0)
+      character.dies();
+  }
+  else
+  {
+    attackRoll = rand()%100+1;
+    if(attackRoll <= enemy.getAccuracy())
+    {
+      avoidRoll = rand()%100+1;
+      if(avoidRoll <= character.getAvoid())
+      {
+        cout << character.getName() << " avoided the attack." << endl;
+      }
+      else
+      {
+        character.takeDamage(enemy.getDamage());
+        cout << enemy.getName() << " hits " << character.getName() << " and deals " << enemy.getDamage() << " damage!" << endl;
+        if(character.getHP()<=0)
+          character.dies();
+      }
+    }
+    else
+    {
+      cout << enemy.getName() << " misses " << character.getName() << "." << endl;
+    }
+
+    if(character.getClass().compare("Cleric") && character.getClass().compare("Troubadour"))
+    {
+      attackRoll = rand()%100+1;
+      if(attackRoll <= character.getAccuracy())
+      {
+        avoidRoll = rand()%100+1;
+        if(avoidRoll <= enemy.getAvoid())
+        {
+          cout << enemy.getName() << " avoided the attack." << endl;
+        }
+        else
+        {
+          enemy.takeDamage(character.getDamage());
+          cout << character.getName() << " hits " << enemy.getName() << " and deals " << character.getDamage() << " damage!" << endl;
+          if(enemy.getHP()<=0)
+            enemy.dies();
+        }
+      }
+      else
+      {
+        cout << character.getName() << " misses " << enemy.getName() << "." << endl;
+      }
+    }
+
+    attackRoll = rand()%100+1;
+    if(attackRoll <= enemy.getAccuracy())
+    {
+      avoidRoll = rand()%100+1;
+      if(avoidRoll <= character.getAvoid())
+      {
+        cout << character.getName() << " avoided the attack." << endl;
+      }
+      else
+      {
+        character.takeDamage(enemy.getDamage());
+        cout << enemy.getName() << " hits " << character.getName() << " and deals " << enemy.getDamage() << " damage!" << endl;
+        if(character.getHP()<=0)
+          character.dies();
+      }
+    }
+    else
+    {
+      cout << enemy.getName() << " misses " << character.getName() << "." << endl;
+    }
+  }
 }
 
 void characterInitialization() //Initializes all of the characters with their given class constructors
@@ -747,7 +978,7 @@ void enemyInitialization() //Initializes all of the enemies with random info
     srand( time( NULL ) );
     for(int i=0; i<6; i++) //Do the same process for 6 different enemies to be put into the enemy array
     {
-        switch(rand()%16+1) //In order to randomize class, must switch between the 16 different cases
+        switch(rand()%14+1) //In order to randomize class, must switch between the 16 different cases
         {
             case 1:
             {
@@ -772,89 +1003,75 @@ void enemyInitialization() //Initializes all of the enemies with random info
             }
             case 4:
             {
-                int heal = rand()%2+7;
-				int hp = rand()%2+18;
-                enemies[i] = Character("Enemy " + to_string(i+1), "Cleric", false, hp, hp, rand()%10+60, 100, 0, 0, 0, heal);
-                break;
-            }
-            case 5:
-            {
                 int dam = rand()%2+10;
 				int hp = rand()%6+11;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Dark Mage", false, hp, hp, rand()%5+55, rand()%10+70, rand()%10+30, dam, dam*3, 0);
                 break;
             }
-            case 6:
+            case 5:
             {
                 int dam = rand()%2+9;
 				int hp = rand()%2+22;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Fighter", false, hp, hp, rand()%10+50, rand()%15+55, rand()%10+45, dam, dam*3, 0);
                 break;
             }
-            case 7:
+            case 6:
             {
                 int dam = rand()%1+9;
 				int hp = rand()%5+30;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Knight", false, hp, hp, rand()%15+15, rand()%15+65, rand()%20+45, dam, dam*3, 0);
                 break;
             }
-            case 8:
+            case 7:
             {
                 int dam = rand()%4+8;
 				int hp = rand()%1+20;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Lord", false, hp, hp, rand()%10+60, rand()%5+85, rand()%10+40, dam, dam*3, 0);
                 break;
             }
-            case 9:
+            case 8:
             {
                 int dam = rand()%1+7;
 				int hp = rand()%2+20;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Mage", false, hp, hp, rand()%10+50, rand()%5+70, rand()%15+50, dam, dam*3, 0);
                 break;
             }
-            case 10:
+            case 9:
             {
                 int dam = rand()%2+10;
 				int hp = rand()%10+20;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Mercenary", false, hp, hp, rand()%15+35, rand()%30+65, rand()%20+25, dam, dam*3, 0);
                 break;
             }
-            case 11:
+            case 10:
             {
                 int dam = rand()%2+6;
 				int hp = rand()%5+15;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Myrmidon", false, hp, hp, rand()%40+35, rand()%30+65, rand()%5+50, dam, dam*3, 0);
                 break;
             }
-            case 12:
+            case 11:
             {
                 int dam = rand()%1+6;
 				int hp = rand()%3+15;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Pegasus Knight", false, hp, hp, rand()%10+60, rand()%10+60, rand()%15+45, dam, dam*3, 0);
                 break;
             }
-            case 13:
+            case 12:
             {
                 int dam = rand()%2+7;
 				int hp = rand()%4+19;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Tactician", false, hp, hp, rand()%20+50, rand()%10+80, rand()%5+45, dam, dam*3, 0);
                 break;
             }
-            case 14:
+            case 13:
             {
                 int dam = rand()%2+7;
 				int hp = rand()%4+18;
                 enemies[i] = Character("Enemy " + to_string(i+1), "Thief", false, hp, hp, rand()%10+60, rand()%10+65, rand()%10+35, dam, dam*3, 0);
                 break;
             }
-            case 15:
-            {
-                int heal = rand()%3+5;
-				int hp = rand()%3+15;
-                enemies[i] = Character("Enemy " + to_string(i+1), "Troubadour", false, hp, hp, rand()%20+50, 100, 0, 0, 0, heal);
-                break;
-            }
-            case 16:
+            case 14:
             {
                 int dam = rand()%3+11;
 				int hp = rand()%3+22;
@@ -912,32 +1129,44 @@ char int_to_terrain(int i)
     return ('*');
 }
 
-void erase(int d[][COLS], string playerSelect, char move) // for move, and death (hp=0)
+void erase(int d[][COLS], string playerSelect)
 {
     int col, row, member;
-		if(party[0].getName().compare(playerSelect)==0)
-			member = 8;
-		else if(party[1].getName().compare(playerSelect)==0)
-			member = 9;
-		else if(party[2].getName().compare(playerSelect)==0)
-			member = 10;
-		else if(party[3].getName().compare(playerSelect)==0)
-			member = 11;
-		else if(party[4].getName().compare(playerSelect)==0)
-			member = 12;
-		else if(party[5].getName().compare(playerSelect)==0)
-			member = 13;
-		for(int i = 0; i < ROWS; i++)
+	if(party[0].getName().compare(playerSelect)==0)
+		member = 8;
+	else if(party[1].getName().compare(playerSelect)==0)
+		member = 9;
+	else if(party[2].getName().compare(playerSelect)==0)
+		member = 10;
+	else if(party[3].getName().compare(playerSelect)==0)
+		member = 11;
+	else if(party[4].getName().compare(playerSelect)==0)
+		member = 12;
+	else if(party[5].getName().compare(playerSelect)==0)
+		member = 13;
+	else if(enemies[0].getName().compare(playerSelect)==0)
+		member = 2;
+	else if(enemies[1].getName().compare(playerSelect)==0)
+		member = 3;
+	else if(enemies[2].getName().compare(playerSelect)==0)
+		member = 4;
+	else if(enemies[3].getName().compare(playerSelect)==0)
+		member = 5;
+	else if(enemies[4].getName().compare(playerSelect)==0)
+		member = 6;
+	else if(enemies[5].getName().compare(playerSelect)==0)
+		member = 7;
+	for(int i = 0; i < ROWS; i++)
+	{
+		for(int j = 0; j < COLS; j++)
 		{
-			for(int j = 0; j < COLS; j++)
+			if(member==d[i][j])
 			{
-				if(member==d[i][j])
-				{
-					col = j;
-					row = i;
-				}
+				col = j;
+				row = i;
 			}
 		}
+	}
     cout << col << " " << row << endl;
     d[row][col] = 0;
     cout << endl;
@@ -1012,7 +1241,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 		{
 			fight(member, row, col);
 			if(enemies[d[row][col]-2].isDead())
-				erase(d, playerSelect, move);
+				erase(d, playerSelect);
 			fought = true;
 		}
 		else
@@ -1035,7 +1264,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 	}
 	if(d[row][col]==0)
 	{
-		erase(d, playerSelect, move);
+		erase(d, playerSelect);
 		if(member==8)
 			d[row][col] = 8;
 		else if(member==9)
