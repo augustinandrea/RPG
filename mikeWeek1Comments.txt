@@ -33,6 +33,5 @@ stuff. So I'm not sure what else to do before the next meeting.
 Problems:
 Board bounds (in between 0 and 8 all around)
 Enemy AI not implemented yet
-If a character tries to move into another character, collision issues.
 (?)Win condition happens after another action, then win is met.
 Not really a big problem, passable, but would like to ideally change.
