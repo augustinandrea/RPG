@@ -127,7 +127,7 @@ void boardInitialization()
 			}
 			if(playerRandomRow[i]==playerRandomRow[j] && playerRandomCol[i]==playerRandomCol[j])
 			{
-				playerRandomRow[j] = rand()%3+0;
+				playerRandomRow[j] = rand()%3+4;
 				playerRandomCol[j] = rand()%7+0;
 			}
 		}
@@ -143,7 +143,7 @@ void boardInitialization()
 			}
 			if(playerRandomRow[i]==playerRandomRow[j] && playerRandomCol[i]==playerRandomCol[j])
 			{
-				playerRandomRow[j] = rand()%3+0;
+				playerRandomRow[j] = rand()%3+4;
 				playerRandomCol[j] = rand()%7+0;
 			}
 		}
@@ -164,7 +164,7 @@ void gameSetup()
 	int i, j;
 	bool back, part1=true;
 	cout << "WELCOME TO THE FIRE EMBLEM BATTLE SIMULATOR" << endl << endl;
-	cout << "Choose your team" << endl;
+	cout << "Choose your team (6 characters)" << endl;
 	while(part1)
 	{
 		back = false;
@@ -264,7 +264,7 @@ void gameSetup()
 		{
 			cout << "1 View character information" << endl;
 			cout << "2 Add character to party" << endl;
-			cout << "3 Retrun to character selection" << endl;
+			cout << "3 Return to character selection" << endl;
 			cin >> choice2s;
 
                         for( int strIt = 0; strIt < choice2s.size(); strIt++ )
@@ -312,6 +312,7 @@ void playerTurn()
 	bool turnOver = false;
 	bool canGo[6] = {true, true, true, true, true, true};
 	char move_select;
+	cout << "PLAYER TURN" << endl;
 	while(!turnOver)
 	{
 		// Print board
