@@ -47,6 +47,7 @@ bool playerLoss = false;
 bool enemyLoss = false;
 int upgrades = 2;
 int heals = 5;
+bool triedToGoThroughCharacter = false;
 
 int d[ROWS][COLS]={
 	{0,0,0,0,0,0,0,0},
@@ -506,7 +507,8 @@ void playerTurn()
 					else
 					{
 						moving = move(d, party[choice2].getName(), move_select);
-						numMoves--;
+						if(!triedToGoThroughCharacter)
+							numMoves--;
 						if(moving)
 							printMap(d);
 					}
@@ -1012,6 +1014,10 @@ bool move(int d[][COLS], string playerSelect, char move)
 				erase(d, playerSelect, move);
 			fought = true;
 		}
+		else
+		{
+			triedToGoThroughCharacter = true;
+		}
 	}
 	else if(d[row][col]>=8 && d[row][col]<=13)
 	{
@@ -1020,6 +1026,10 @@ bool move(int d[][COLS], string playerSelect, char move)
 			party[d[row][col]-8].healDamage(party[member-8].getHeal());
 			cout << party[member-8].getName() << " healed " << party[d[row][col]-8].getName() << endl;
 			fought = true;
+		}
+		else
+		{
+			triedToGoThroughCharacter = true;
 		}
 	}
 	if(d[row][col]==0)
@@ -1037,6 +1047,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 			d[row][col] = 12;
 		else if(member==13)
 			d[row][col] = 13;
+		triedToGoThroughCharacter = false;
 	}
 	return !fought;
 }
