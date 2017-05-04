@@ -491,7 +491,8 @@ void playerTurn()
 					{
 						moving = move(d, party[choice2].getName(), move_select);
 						numMoves--;
-						printMap(d);
+						if(moving)
+							printMap(d);
 					}
 				}
 				if(!moving)
