@@ -113,5 +113,5 @@ void Character::displayInfo()
 	cout << "Crit Rate:      " << stats["Crit"] << "%" << endl;
 	cout << "Damage:         " << stats["Damage"] << endl;
 	cout << "Crit Damage:    " << stats["Crit Damage"] << endl;
-	cout << "Recorvery Rate: " << stats["Heal"] << endl;
+	cout << "Recovery Rate: " << stats["Heal"] << endl;
 }

@@ -47,6 +47,7 @@ bool playerLoss = false;
 bool enemyLoss = false;
 int upgrades = 2;
 int heals = 5;
+bool triedToGoThroughCharacter = false;
 
 int d[ROWS][COLS]={
 	{0,0,0,0,0,0,0,0},
@@ -102,7 +103,7 @@ int main()
 
 void boardInitialization()
 {
-	int i;
+	int i, j;
 	srand(time(NULL));
 	int enemyRandomRow[6];
 	int enemyRandomCol[6];
@@ -117,6 +118,22 @@ void boardInitialization()
 	}
 	for(i=0; i<6; i++)
 	{
+		for(j=i+1; j<6; j++)
+		{
+			if(enemyRandomRow[i]==enemyRandomRow[j] && enemyRandomCol[i]==enemyRandomCol[j])
+			{
+				enemyRandomRow[j] = rand()%3+0;
+				enemyRandomCol[j] = rand()%7+0;
+			}
+			if(playerRandomRow[i]==playerRandomRow[j] && playerRandomCol[i]==playerRandomCol[j])
+			{
+				playerRandomRow[j] = rand()%3+4;
+				playerRandomCol[j] = rand()%7+0;
+			}
+		}
+	}
+	for(i=0; i<6; i++)
+	{
 		for(int j=i+1; j<6; j++)
 		{
 			if(enemyRandomRow[i]==enemyRandomRow[j] && enemyRandomCol[i]==enemyRandomCol[j])
@@ -126,7 +143,7 @@ void boardInitialization()
 			}
 			if(playerRandomRow[i]==playerRandomRow[j] && playerRandomCol[i]==playerRandomCol[j])
 			{
-				playerRandomRow[j] = rand()%3+0;
+				playerRandomRow[j] = rand()%3+4;
 				playerRandomCol[j] = rand()%7+0;
 			}
 		}
@@ -147,7 +164,7 @@ void gameSetup()
 	int i, j;
 	bool back, part1=true;
 	cout << "WELCOME TO THE FIRE EMBLEM BATTLE SIMULATOR" << endl << endl;
-	cout << "Choose your team" << endl;
+	cout << "Choose your team (6 characters)" << endl;
 	while(part1)
 	{
 		back = false;
@@ -247,7 +264,7 @@ void gameSetup()
 		{
 			cout << "1 View character information" << endl;
 			cout << "2 Add character to party" << endl;
-			cout << "3 Retrun to character selection" << endl;
+			cout << "3 Return to character selection" << endl;
 			cin >> choice2s;
 
                         for( int strIt = 0; strIt < choice2s.size(); strIt++ )
@@ -295,6 +312,7 @@ void playerTurn()
 	bool turnOver = false;
 	bool canGo[6] = {true, true, true, true, true, true};
 	char move_select;
+	cout << "PLAYER TURN" << endl;
 	while(!turnOver)
 	{
 		// Print board
@@ -490,8 +508,10 @@ void playerTurn()
 					else
 					{
 						moving = move(d, party[choice2].getName(), move_select);
-						numMoves--;
-						printMap(d);
+						if(!triedToGoThroughCharacter)
+							numMoves--;
+						if(moving)
+							printMap(d);
 					}
 				}
 				if(!moving)
@@ -545,6 +565,8 @@ void playerTurn()
 						else
 						{
 							cout << "Out of upgrades" << endl;
+							pTurnOver = true;
+							turnUsed = true;
 							break;
 						}
 					}
@@ -560,6 +582,8 @@ void playerTurn()
 						else
 						{
 							cout << "Out of heals" << endl;
+							pTurnOver = true;
+							turnUsed = true;
 							break;
 						}
 					}
@@ -881,9 +905,10 @@ char int_to_terrain(int i)
         else if(i >= 2 && i <=7){
 					return 'E';
 				}
-        else{
-					return 'P';
-				}
+        else
+        {
+			return party[i-8].getName().at(0);	
+		}
     return ('*');
 }
 
@@ -981,33 +1006,31 @@ bool move(int d[][COLS], string playerSelect, char move)
       continue;
     }
 */
-	if(d[row][col] >= 2 && d[row][col] <=7)
+	if(d[row][col]>=2 && d[row][col]<=7)
 	{
 		if(party[member-8].getClass().compare("Cleric") && party[member-8].getClass().compare("Troubadour"))
 		{
 			fight(member, row, col);
 			if(enemies[d[row][col]-2].isDead())
-			{
 				erase(d, playerSelect, move);
-				if(member==8)
-					d[row][col] = 8;
-				else if(member==9)
-					d[row][col] = 9;
-				else if(member==10)
-					d[row][col] = 10;
-				else if(member==11)
-					d[row][col] = 11;
-				else if(member==12)
-					d[row][col] = 12;
-				else if(member==13)
-					d[row][col] = 13;
-			}
 			fought = true;
 		}
 		else
 		{
+			triedToGoThroughCharacter = true;
+		}
+	}
+	else if(d[row][col]>=8 && d[row][col]<=13)
+	{
+		if(party[member-8].getClass().compare("Cleric")==0 || party[member-8].getClass().compare("Troubadour")==0)
+		{
 			party[d[row][col]-8].healDamage(party[member-8].getHeal());
 			cout << party[member-8].getName() << " healed " << party[d[row][col]-8].getName() << endl;
+			fought = true;
+		}
+		else
+		{
+			triedToGoThroughCharacter = true;
 		}
 	}
 	if(d[row][col]==0)
@@ -1025,6 +1048,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 			d[row][col] = 12;
 		else if(member==13)
 			d[row][col] = 13;
+		triedToGoThroughCharacter = false;
 	}
 	return !fought;
 }
@@ -1099,7 +1123,7 @@ void fight(int member, int row, int col)
 			else
 			{
 				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
-				cout << party[member-8].getDamage() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
+				cout << party[member-8].getName() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
 				if(enemies[d[row][col]-2].getHP()<=0)
 					enemies[d[row][col]-2].dies();
 			}

@@ -32,11 +32,6 @@ stuff. So I'm not sure what else to do before the next meeting.
 
 Problems:
 Board bounds (in between 0 and 8 all around)
-When you move, doesn't show move made until next action is taken
 Enemy AI not implemented yet
-Make Ps into first letters of character names.
-If a character tries to move into another character, collision issues.
-Erase coordinates printed out by cout
-If you upgrade, and you're out of upgrades, you get another move
 (?)Win condition happens after another action, then win is met.
 Not really a big problem, passable, but would like to ideally change.
