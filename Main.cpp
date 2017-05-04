@@ -102,7 +102,7 @@ int main()
 
 void boardInitialization()
 {
-	int i;
+	int i, j;
 	srand(time(NULL));
 	int enemyRandomRow[6];
 	int enemyRandomCol[6];
@@ -114,6 +114,22 @@ void boardInitialization()
 		enemyRandomCol[i] = rand()%7+0;
 		playerRandomRow[i] = rand()%3+4;
 		playerRandomCol[i] = rand()%7+0;
+	}
+	for(i=0; i<6; i++)
+	{
+		for(j=i+1; j<6; j++)
+		{
+			if(enemyRandomRow[i]==enemyRandomRow[j] && enemyRandomCol[i]==enemyRandomCol[j])
+			{
+				enemyRandomRow[j] = rand()%3+0;
+				enemyRandomCol[j] = rand()%7+0;
+			}
+			if(playerRandomRow[i]==playerRandomRow[j] && playerRandomCol[i]==playerRandomCol[j])
+			{
+				playerRandomRow[j] = rand()%3+0;
+				playerRandomCol[j] = rand()%7+0;
+			}
+		}
 	}
 	for(i=0; i<6; i++)
 	{
