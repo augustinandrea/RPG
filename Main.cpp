@@ -937,6 +937,7 @@ void efight(int enemy, int character)
         {
         	erase(d, party[character].getName());
           	party[character].dies();
+          	checkParty();
         }
       }
     }
@@ -963,6 +964,7 @@ void efight(int enemy, int character)
           {
           	erase(d, enemies[enemy].getName());
            	enemies[enemy].dies();
+           	checkParty();
           }
         }
       }
@@ -988,6 +990,7 @@ void efight(int enemy, int character)
         {
         	erase(d, party[character].getName());
           	party[character].dies();
+          	checkParty();
         }
       }
     }
@@ -1301,7 +1304,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 		{
 			fight(member, row, col);
 			if(enemies[d[row][col]-2].isDead())
-				erase(d, playerSelect);
+				erase(d, enemies[d[row][col]-2].getName());
 			fought = true;
 		}
 		else
@@ -1322,7 +1325,7 @@ bool move(int d[][COLS], string playerSelect, char move)
 			triedToGoThroughCharacter = true;
 		}
 	}
-	if(d[row][col]==0)
+	if(d[row][col]==0 && !fought)
 	{
 		erase(d, playerSelect);
 		if(member==8)
@@ -1369,7 +1372,10 @@ void fight(int member, int row, int col)
 				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
 				cout << party[member-8].getName() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
 				if(enemies[d[row][col]-2].getHP()<=0)
+				{
 					enemies[d[row][col]-2].dies();
+					checkParty();
+				}
 			}
 		}
 		else
@@ -1392,7 +1398,10 @@ void fight(int member, int row, int col)
 					party[member-8].takeDamage(enemies[d[row][col]-2].getDamage());
 					cout << enemies[d[row][col]-2].getName() << " hits " << party[member-8].getName() << " and deals " << enemies[d[row][col]-2].getDamage() << " damage!" << endl;
 					if(party[member-8].getHP()<=0)
+					{
 						party[member-8].dies();
+						checkParty();
+					}
 				}
 			}
 			else
@@ -1414,7 +1423,10 @@ void fight(int member, int row, int col)
 				enemies[d[row][col]-2].takeDamage(party[member-8].getDamage());
 				cout << party[member-8].getName() << " hits " << enemies[d[row][col]-2].getName() << " and deals " << party[member-8].getDamage() << " damage!" << endl;
 				if(enemies[d[row][col]-2].getHP()<=0)
+				{
 					enemies[d[row][col]-2].dies();
+					checkParty();
+				}
 			}
 		}
 		else
