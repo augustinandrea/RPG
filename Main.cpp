@@ -562,6 +562,8 @@ void playerTurn()
 						else
 						{
 							cout << "Out of upgrades" << endl;
+							pTurnOver = true;
+							turnUsed = true;
 							break;
 						}
 					}
@@ -577,6 +579,8 @@ void playerTurn()
 						else
 						{
 							cout << "Out of heals" << endl;
+							pTurnOver = true;
+							turnUsed = true;
 							break;
 						}
 					}
@@ -999,7 +1003,7 @@ bool move(int d[][COLS], string playerSelect, char move)
       continue;
     }
 */
-	if(d[row][col] >= 2 && d[row][col] <=7)
+	if(d[row][col]>=2 && d[row][col]<=7)
 	{
 		if(party[member-8].getClass().compare("Cleric") && party[member-8].getClass().compare("Troubadour"))
 		{
@@ -1008,10 +1012,14 @@ bool move(int d[][COLS], string playerSelect, char move)
 				erase(d, playerSelect, move);
 			fought = true;
 		}
-		else
+	}
+	else if(d[row][col]>=8 && d[row][col]<=13)
+	{
+		if(party[member-8].getClass().compare("Cleric")==0 || party[member-8].getClass().compare("Troubadour")==0)
 		{
 			party[d[row][col]-8].healDamage(party[member-8].getHeal());
 			cout << party[member-8].getName() << " healed " << party[d[row][col]-8].getName() << endl;
+			fought = true;
 		}
 	}
 	if(d[row][col]==0)
