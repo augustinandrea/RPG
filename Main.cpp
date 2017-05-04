@@ -42,7 +42,7 @@ bool move(int d[][COLS], string playerSelect, char move);
 void fight(int, int, int);
 double dForm(int enemy, int character);
 void emove(int enemy, int character, bool fight);
-void efight(Character enemy, Character character);
+void efight(int enemy, int character);
 
 Character characters[32];
 Character enemies[6];
@@ -711,7 +711,7 @@ void enemyTurn()
   int charWithLowest = -1;
   int smallestDistance = 8;
   int charWithSmallest = 0;
-  int distance, enemyX, enemyY, characterX, characterY;
+  int distance, enemyX, enemyY, characterX, characterY, diffX, diffY, i;
   bool pathClear = true; //CHANGE THIS LATER
   cout << "ENEMY TURN" << endl;
     
@@ -720,7 +720,7 @@ void enemyTurn()
   	cout << enemies[e].getName() << "'s turn" << endl;
     for(int p=0; p<6; p++)
     {
-      if(dForm(e+2, p+8) < 3.0)
+      if(dForm(e+2, p+8) == 3.0 || dForm(e+2, p+8) <= 2.0)
       {
       	for(int r=0; r<8; r++)
 		{
@@ -738,13 +738,64 @@ void enemyTurn()
 		      	}
 		   	}
 		}
-		//FIGURE OUT HOW TO PREVENT PEOPLE FROM ATTACKING THROUGH EACH OTHER
+		diffX = enemyX - characterX;
+		diffY = enemyY - characterY;
+		if(diffX==0)
+		{
+			if(diffY>0)
+			{
+				if(diffY!=1)
+				{
+					for(i=characterY+1; i<enemyY; i++)
+					{
+						if(d[enemyX][i]!=0)
+							pathClear = false;
+					}
+				}
+			}
+			else if(diffY<0)
+			{
+				if(diffY!=-1)
+				{
+					for(i=enemyY+1; i<characterY; i++)
+					{
+						if(d[enemyX][i]!=0)
+							pathClear = false;
+					}
+				}
+			}
+		}
+		else if(diffY==0)
+		{
+			if(diffX>0)
+			{
+				if(diffX!=1)
+				{
+					for(i=characterX+1; i<enemyX; i++)
+					{
+						if(d[i][enemyY]!=0)
+							pathClear = false;
+					}
+				}
+			}
+			else if(diffX<0)
+			{
+				if(diffX!=-1)
+				{
+					for(i=enemyX+1; i<characterX; i++)
+					{
+						if(d[i][enemyY]!=0)
+							pathClear = false;
+					}
+				}
+			}
+		}
       	if(pathClear)
       	{
 	        if(party[p].getClass().compare("Cleric") || party[p].getClass().compare("Troubadour"))
 	        {
 	          emove(e+2, p+8, true);
-	          efight(enemies[e], party[p]);
+	          efight(e, p);
 	          p = 6;
 	        }
 	        else if(party[p].getHP() < lowestHP)
@@ -758,7 +809,7 @@ void enemyTurn()
     if(charWithLowest!=-1)
     {
       emove(e+2, charWithLowest+8, true);
-      efight(enemies[e], party[charWithLowest]);
+      efight(e, charWithLowest);
     }
     else
     {
@@ -825,7 +876,6 @@ void emove(int enemy, int character, bool fight)
   }
   moveX = enemyX - characterX;
   moveY = enemyY - characterY;
-  cout << "IN MOVE FUNCTION" << endl;
   if(moveX>3)
     moveX = 3;
   if(moveX<-3)
@@ -849,90 +899,101 @@ void emove(int enemy, int character, bool fight)
   		characterX--;
   	else if(moveY<0)
   		characterY++;
-  	cout << characterX << " x " << characterY << endl;
-  	d[characterX][characterY]=enemy;
   	erase(d, enemies[enemy-2].getName());
+  	d[characterX][characterY]=enemy;
   }
 }
 
-void efight(Character enemy, Character character)
+void efight(int enemy, int character)
 {
   srand(time(NULL));
   int critRoll = rand()%100+1;
   int attackRoll, avoidRoll;
-  if(critRoll <= enemy.getCrit())
+  if(critRoll <= enemies[enemy].getCrit())
   {
-    character.takeDamage(enemy.getCritDamage());
-    cout << enemy.getName() << " crits " << character.getName() << " and deals " << enemy.getCritDamage() << " damage!" << endl;
-    if(character.getHP()<=0)
-      character.dies();
+    party[character].takeDamage(enemies[enemy].getCritDamage());
+    cout << enemies[enemy].getName() << " crits " << party[character].getName() << " and deals " << enemies[enemy].getCritDamage() << " damage!" << endl;
+    if(party[character].getHP()<=0)
+    {
+    	erase(d, party[character].getName());
+      	party[character].dies();
+    }
   }
   else
   {
     attackRoll = rand()%100+1;
-    if(attackRoll <= enemy.getAccuracy())
+    if(attackRoll <= enemies[enemy].getAccuracy())
     {
       avoidRoll = rand()%100+1;
-      if(avoidRoll <= character.getAvoid())
+      if(avoidRoll <= party[character].getAvoid())
       {
-        cout << character.getName() << " avoided the attack." << endl;
+        cout << party[character].getName() << " avoided the attack." << endl;
       }
       else
       {
-        character.takeDamage(enemy.getDamage());
-        cout << enemy.getName() << " hits " << character.getName() << " and deals " << enemy.getDamage() << " damage!" << endl;
-        if(character.getHP()<=0)
-          character.dies();
+        party[character].takeDamage(enemies[enemy].getDamage());
+        cout << enemies[enemy].getName() << " hits " << party[character].getName() << " and deals " << enemies[enemy].getDamage() << " damage!" << endl;
+        if(party[character].getHP()<=0)
+        {
+        	erase(d, party[character].getName());
+          	party[character].dies();
+        }
       }
     }
     else
     {
-      cout << enemy.getName() << " misses " << character.getName() << "." << endl;
+      cout << enemies[enemy].getName() << " misses " << party[character].getName() << "." << endl;
     }
 
-    if(character.getClass().compare("Cleric") && character.getClass().compare("Troubadour"))
+    if(party[character].getClass().compare("Cleric") && party[character].getClass().compare("Troubadour"))
     {
       attackRoll = rand()%100+1;
-      if(attackRoll <= character.getAccuracy())
+      if(attackRoll <= party[character].getAccuracy())
       {
         avoidRoll = rand()%100+1;
-        if(avoidRoll <= enemy.getAvoid())
+        if(avoidRoll <= enemies[enemy].getAvoid())
         {
-          cout << enemy.getName() << " avoided the attack." << endl;
+          cout << enemies[enemy].getName() << " avoided the attack." << endl;
         }
         else
         {
-          enemy.takeDamage(character.getDamage());
-          cout << character.getName() << " hits " << enemy.getName() << " and deals " << character.getDamage() << " damage!" << endl;
-          if(enemy.getHP()<=0)
-            enemy.dies();
+          enemies[enemy].takeDamage(party[character].getDamage());
+          cout << party[character].getName() << " hits " << enemies[enemy].getName() << " and deals " << party[character].getDamage() << " damage!" << endl;
+          if(enemies[enemy].getHP()<=0)
+          {
+          	erase(d, enemies[enemy].getName());
+           	enemies[enemy].dies();
+          }
         }
       }
       else
       {
-        cout << character.getName() << " misses " << enemy.getName() << "." << endl;
+        cout << party[character].getName() << " misses " << enemies[enemy].getName() << "." << endl;
       }
     }
 
     attackRoll = rand()%100+1;
-    if(attackRoll <= enemy.getAccuracy())
+    if(attackRoll <= enemies[enemy].getAccuracy())
     {
       avoidRoll = rand()%100+1;
-      if(avoidRoll <= character.getAvoid())
+      if(avoidRoll <= party[character].getAvoid())
       {
-        cout << character.getName() << " avoided the attack." << endl;
+        cout << party[character].getName() << " avoided the attack." << endl;
       }
       else
       {
-        character.takeDamage(enemy.getDamage());
-        cout << enemy.getName() << " hits " << character.getName() << " and deals " << enemy.getDamage() << " damage!" << endl;
-        if(character.getHP()<=0)
-          character.dies();
+        party[character].takeDamage(enemies[enemy].getDamage());
+        cout << enemies[enemy].getName() << " hits " << party[character].getName() << " and deals " << enemies[enemy].getDamage() << " damage!" << endl;
+        if(party[character].getHP()<=0)
+        {
+        	erase(d, party[character].getName());
+          	party[character].dies();
+        }
       }
     }
     else
     {
-      cout << enemy.getName() << " misses " << character.getName() << "." << endl;
+      cout << enemies[enemy].getName() << " misses " << party[character].getName() << "." << endl;
     }
   }
 }
@@ -1167,7 +1228,6 @@ void erase(int d[][COLS], string playerSelect)
 			}
 		}
 	}
-    cout << col << " " << row << endl;
     d[row][col] = 0;
     cout << endl;
 }
