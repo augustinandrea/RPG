@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// character classes included
 #include "Character.h"
 #include "Archer.h"
 #include "Barbarian.h"
@@ -28,6 +29,7 @@ using namespace std;
 #define ROWS 8
 #define COLS 8
 
+// function prototypes
 void boardInitialization();
 void gameSetup();
 void playerTurn();
@@ -53,7 +55,7 @@ int upgrades = 2;
 int heals = 5;
 bool triedToGoThroughCharacter = false;
 
-int d[ROWS][COLS]={
+int d[ROWS][COLS]={ // board array
 	{0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0},
@@ -105,7 +107,7 @@ int main()
     }
 }
 
-void boardInitialization()
+void boardInitialization() // determining where player and enemy appear at the start of battle
 {
 	int i, j;
 	srand(time(NULL));
@@ -113,7 +115,7 @@ void boardInitialization()
 	int enemyRandomCol[6];
 	int playerRandomRow[6];
 	int playerRandomCol[6];
-	for(i=0; i<6; i++)
+	for(i=0; i<6; i++) // randomizing enemy appearance
 	{
 		enemyRandomRow[i] = rand()%3+0;
 		enemyRandomCol[i] = rand()%7+0;
@@ -159,7 +161,7 @@ void boardInitialization()
 	}
 }
 
-void gameSetup()
+void gameSetup() // creating your party team of six players at the start of the game
 {
 	string choice1;
 	int choice2;
@@ -169,7 +171,7 @@ void gameSetup()
 	bool back, part1=true;
 	cout << "WELCOME TO THE FIRE EMBLEM BATTLE SIMULATOR" << endl << endl;
 	cout << "Choose your team (6 characters)" << endl;
-	while(part1)
+	while(part1) // first part of the game. Initializing the party and possible options that the player can do.
 	{
 		back = false;
 		for(i=0; i<8; i++)
@@ -311,13 +313,13 @@ void gameSetup()
 	}
 }
 
-void playerTurn()
+void playerTurn() // the function that helps determine the possible actions the player can do for the player turn
 {
 	bool turnOver = false;
 	bool canGo[6] = {true, true, true, true, true, true};
 	char move_select;
 	cout << "PLAYER TURN" << endl;
-	while(!turnOver)
+	while(!turnOver) // as long as the player has units that can do something and are not dead. All choices for each of the six party units are implemented in similar manner.
 	{
 		// Print board
 		printMap(d);
@@ -681,7 +683,7 @@ void playerTurn()
 	}
 }
 
-void checkParty()
+void checkParty() // determining how many party members have been killed and how many enemies have been killed
 {
 	int playerDeadCount = 0;
 	int enemyDeadCount = 0;
@@ -705,7 +707,7 @@ void checkParty()
 	}
 }
 
-void enemyTurn()
+void enemyTurn() // the AI for the enemy attacking the player and what the enemy prioritizes in attacking
 {
   int lowestHP = 50;
   int charWithLowest = -1;
@@ -832,7 +834,7 @@ void enemyTurn()
   cout << "ENEMY TURN OVER" << endl;
 }
 
-double dForm(int enemy, int character)
+double dForm(int enemy, int character) // determining the distance that an enemy will go with respect to other characters. Enemies will attack a player character within the distance. 
 {
   int enemyX, enemyY, characterX, characterY;
   for(int r=0; r<8; r++)
@@ -854,7 +856,7 @@ double dForm(int enemy, int character)
   return sqrt(pow((enemyX-characterX),2) + pow((enemyY-characterY),2));
 }
 
-void emove(int enemy, int character, bool fight)
+void emove(int enemy, int character, bool fight) // determining movement of the enemy with respect to other characters
 {
   Character enemyChar;
   int enemyX, enemyY, characterX, characterY, moveX, moveY;
@@ -904,7 +906,7 @@ void emove(int enemy, int character, bool fight)
   }
 }
 
-void efight(int enemy, int character)
+void efight(int enemy, int character) // displaying the results of the fight and if a player dies
 {
   srand(time(NULL));
   int critRoll = rand()%100+1;
@@ -1193,7 +1195,7 @@ char int_to_terrain(int i)
     return ('*');
 }
 
-void erase(int d[][COLS], string playerSelect)
+void erase(int d[][COLS], string playerSelect) // erasing a chracter from the previous space when moving the character to another spot.
 {
     int col, row, member;
 	if(party[0].getName().compare(playerSelect)==0)
@@ -1235,7 +1237,7 @@ void erase(int d[][COLS], string playerSelect)
     cout << endl;
 }
 
-bool move(int d[][COLS], string playerSelect, char move)
+bool move(int d[][COLS], string playerSelect, char move) // moving the characters on the board to another space
 {
     int row, col, count;
 	int member;
