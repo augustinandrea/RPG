@@ -233,7 +233,7 @@ void gameSetup()
                      if(( choice1.compare(party[jINeedThis].getName()) == 0 ))
                      {
                           reUse = true;
-                     } 
+                     }
                 }
                 for( int kNeedThis = 0; kNeedThis < 32; kNeedThis++ )
                 {
@@ -519,7 +519,7 @@ void playerTurn()
 					}
 				}
 				if(!moving)
-				{	
+				{
 					pTurnOver = true;
 					turnUsed = true;
 					break;
@@ -622,9 +622,9 @@ void playerTurn()
                                      {
                                          cout << "Now youve angered me." << endl;
                                          continue;
-                                     } 
+                                     }
                                 }
-   
+
                                 choice6 = stoi(choice6s);
 
 				if(choice6==1)
@@ -714,7 +714,7 @@ void enemyTurn()
   int distance, enemyX, enemyY, characterX, characterY, diffX, diffY, i;
   bool pathClear = true; //CHANGE THIS LATER
   cout << "ENEMY TURN" << endl;
-    
+
   for(int e=0; e<6; e++)
   {
   	cout << enemies[e].getName() << "'s turn" << endl;
@@ -1188,7 +1188,7 @@ char int_to_terrain(int i)
 				}
         else
         {
-			return party[i-8].getName().at(0);	
+			return party[i-8].getName().at(0);
 		}
     return ('*');
 }
@@ -1276,22 +1276,45 @@ bool move(int d[][COLS], string playerSelect, char move)
             That'll be an if condition to decide which one
         w = row + 1; and etc.
     */
+		bool valid = true;
 
-    switch(move)
-    {
-      case 'w':
-        row = row - 1;
-      	break;
-      case 'a':
-        col = col - 1;
-        break;
-      case 'd':
-        col = col + 1;
-        break;
-      case 's':
-        row = row + 1;
-        break;
-    }
+		switch(move)
+	  {
+	    case 'w':
+	      row = row - 1;
+	     	break;
+	    case 'a':
+	      col = col - 1;
+	      break;
+	    case 'd':
+	      col = col + 1;
+       	break;
+			case 's':
+	      row = row + 1;
+	      break;
+	  }
+
+		if(row < 0 || row > 8 || col < 0 || col > 8)
+		{
+				if(row < 0)
+				{
+					row = row + 1;
+				}
+				else if(row > 8)
+				{
+					row = row - 1;
+				}
+				else if(col < 0)
+				{
+					col = col + 1;
+				}
+				else if(col > 8)
+				{
+					col = col - 1;
+				}
+				cout << "Not valid move, try again" << endl;
+		}
+
 /*
     if(row < 0 || row > 8 || col < 0 || col > 8)
     {
